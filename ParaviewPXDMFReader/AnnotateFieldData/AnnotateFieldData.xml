@@ -1,0 +1,40 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+   <!-- ================================================================== -->
+   <SourceProxy name="AnnotateFieldData" class="vtkFieldDataToTextConvertor" label="Annotate Fixed Dimension Data">
+     <Documentation
+        long_help="Shows input field data as text annnotation in the view."
+        short_help="Show field data as text.">
+     </Documentation>
+
+     <InputProperty
+         name="Input"
+         command="SetInputConnection">
+       <ProxyGroupDomain name="groups">
+         <Group name="sources"/>
+         <Group name="filters"/>
+       </ProxyGroupDomain>
+       <Documentation>
+         This property specifies the input dataset for which to display the field data.
+       </Documentation>
+     </InputProperty>
+    
+     <StringVectorProperty
+       name="Format"
+       command="SetFormat"
+       number_of_elements="1"
+       default_values="%f %s"
+       animateable="0">
+       <Documentation>
+         The value of this property is a format string used to display the field data. The format string is specified using printf style. The first string is for the value and the second is for the unit name.
+       </Documentation>
+     </StringVectorProperty>
+
+     <Hints>
+       <Visibility replace_input="0" />
+       <OutputPort name="Output-0" index="0" type="text" />
+       <ShowInMenu category="PXDMF" icon=":/PXDMFIcons/AnnotateFieldData.png" show_in_toolbar="1" />
+     </Hints>
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

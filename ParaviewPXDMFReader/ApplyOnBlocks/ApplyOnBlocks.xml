@@ -1,0 +1,416 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+    
+        <SourceProxy name="SliceOnBlock" class="vtkApplyOnBlocksFilter" label="Slice On Block" si_class="vtkSIMetaFilterProxy">
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the slice Filter to only a block.">  </Documentation>
+
+      <InputProperty command="SetInputConnection" name="Input"  panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the SliceOnBlock filter.
+        </Documentation>
+      </InputProperty>
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter"
+               proxygroup="filters"
+               proxyname="Cut">
+        </Proxy>
+        <ExposedProperties>
+          <Property name="CutFunction" />
+          <Property name="PreserveInputCells" /><!---->
+          <Property name="Triangulate the slice" />
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" icon=":/pqWidgets/Icons/pqSlice24.png" />
+      </Hints>
+   </SourceProxy>
+    
+    
+    
+    
+    
+    <SourceProxy name="ClipOnBlock" class="vtkApplyOnBlocksFilter" label="Clip On Block" si_class="vtkSIMetaFilterProxy">
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the clip Filter to only a block.">  </Documentation>
+
+      <InputProperty command="SetInputConnection" name="Input"  panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the ClipOnBlock filter.
+        </Documentation>
+      </InputProperty>
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter"
+               proxygroup="filters"
+               proxyname="Clip">
+        </Proxy>
+        <ExposedProperties>
+          <Property name="SelectInputScalars" />
+          <Property name="ClipFunction" />
+          <Property name="Value" />
+          <Property name="InsideOut" />
+          <Property name="UseValueAsOffset" />
+          <Property name="PreserveInputCells" /><!---->
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" icon=":/pqWidgets/Icons/pqClip24.png" />
+      </Hints>
+   </SourceProxy>
+         <!-- End of  ClipOnBlock - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <SourceProxy name="ExtractSurfaceOnBlock" class="vtkApplyOnBlocksFilter" label="Extract Surface On Block" si_class="vtkSIMetaFilterProxy" >
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the clip Filter to only a block.">  </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the ExtractSurfaceOnBlock filter.
+        </Documentation>
+      </InputProperty>
+         
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain>
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter" proxygroup="filters" proxyname="DataSetSurfaceFilter" />
+        <ExposedProperties>
+          <Property name="PieceInvariant" />
+          <Property name="NonlinearSubdivisionLevel" />
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" />
+      </Hints>
+
+      <!-- End of  ExtractSurfaceOnBlock- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    </SourceProxy>
+    
+    <SourceProxy name="FeatureEdgesOnBlock" class="vtkApplyOnBlocksFilter" label="Feature Edges On Block" si_class="vtkSIMetaFilterProxy" >
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the clip Filter to only a block.">  </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the vtkApplyOnBlocks filter.
+        </Documentation>
+      </InputProperty>
+         
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter" proxygroup="filters" proxyname="FeatureEdges" />
+        <ExposedProperties>
+          <Property name="FeatureAngle" />
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" />
+      </Hints>
+
+      <!-- End of  FeatureEdgesOnBlock-->
+    </SourceProxy>
+    
+    <SourceProxy name="ExtractSubsetOnBlock" class="vtkApplyOnBlocksFilter" label="Extract Subset On Block" si_class="vtkSIMetaFilterProxy" >
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the clip Filter to only a block.">  </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the vtkApplyOnBlocks filter.
+        </Documentation>
+      </InputProperty>
+         
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain
+        >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter" proxygroup="filters" proxyname="ExtractGrid" />
+        <ExposedProperties>
+          <Property name="VOI" />
+          <Property name="SampleRateI" />
+          <Property name="SampleRateJ" />
+          <Property name="SampleRateK" />
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" icon=":/pqWidgets/Icons/pqExtractGrid24.png" />
+      </Hints>
+
+      <!-- End of  ExtractSubsetOnBlock-->
+    </SourceProxy>
+
+<SourceProxy name="ShrinkFilterOnBlock" class="vtkApplyOnBlocksFilter" label="Shrink On Block" si_class="vtkSIMetaFilterProxy" >
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the clip Filter to only a block.">  </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the vtkApplyOnBlocks filter.
+        </Documentation>
+      </InputProperty>
+         
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain
+        >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter" proxygroup="filters" proxyname="ShrinkFilter" />
+        <ExposedProperties>
+          <Property name="ShrinkFactor" />
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" />
+      </Hints>
+
+      <!-- End of  Shrink-->
+    </SourceProxy>
+    <SourceProxy name="CalculatorFilterOnBlock" class="vtkApplyOnBlocksFilter" label="Calculator On Block" si_class="vtkSIMetaFilterProxy" >
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the Calculator Filter to only a block.">  
+      </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        
+        <Documentation>This property specifies the input to the vtkApplyOnBlocks filter.
+        </Documentation>
+      </InputProperty>
+         
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain
+        >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>This property lists the ids of the blocks to apply the selected filter. </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <Proxy name="Filter" proxygroup="filters" proxyname="Calculator" />
+        <ExposedProperties>
+          <Property name="AttributeMode" />
+          <Property name="CoordinateResults"  />
+          <Property name="ResultNormals"  />
+          <Property name="ResultTCoords"  />
+          <Property name="ResultArrayName"  />
+          <Property name="Function" panel_widget="calculator"  />
+          <Property name="ReplaceInvalidValues"  />
+          <Property name="ReplacementValue" />
+
+        </ExposedProperties>
+      </SubProxy>
+
+      <Hints>
+        <Visibility replace_input="1" />
+        <ShowInMenu category="OnBlocksFilters" icon=":/pqWidgets/Icons/pqCalculator24.png" />
+      </Hints>
+    </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

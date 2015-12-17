@@ -1,0 +1,131 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="settings">
+    <SettingsProxy name="PxdmfSettings" label="PXDMFReader"
+      processes="client|dataserver|renderserver" class="vtkPXDMFGeneralSettings">
+      <Documentation>
+        Settings for the Pxdmf plugin.
+      </Documentation>
+      
+      
+      <IntVectorProperty name="ShowSplashScreen"
+        command="SetShowSplashScreen"
+        number_of_elements="1"
+        default_values="1"
+        panel_visibility="advanced">
+        <Documentation>
+          Show splash screen at startup for the PXDMFReader Pluing.
+        </Documentation>
+        <BooleanDomain name="bool" />
+        <Hints>
+            <SaveInQSettings />
+        </Hints>
+      </IntVectorProperty>
+      
+      <IntVectorProperty name="UpdateOrientationAxesLabels"
+        command="SetUpdateOrientationAxesLabels"
+        number_of_elements="1"
+        default_values="1"
+        panel_visibility="advanced">
+        <Documentation>
+          Change the label of the Orientation Axes in the 3D view
+        </Documentation>
+        <BooleanDomain name="bool" />
+        <Hints>
+            <SaveInQSettings />
+        </Hints>
+      </IntVectorProperty>
+      
+      <StringVectorProperty name="LicenseNumber"
+        command="SetLicenseNumber"
+        number_of_elements="1"
+        default_values="No License Number"
+        panel_visibility="advanced"
+        >
+        <Documentation>
+          License number for the plugin.
+        </Documentation>
+        <Hints>
+            <SaveInQSettings />
+        </Hints>
+      </StringVectorProperty>
+      
+      
+      <IntVectorProperty name="GUIMaxNbModes"
+        command="SetGUIMaxNbModes"
+        label="Maximun number of individual terms in the GUI"
+        number_of_elements="1"
+        default_values="100"
+        >
+        <Documentation>
+          Limit maximum number of individual terms shown in the GUI
+        </Documentation>
+        <IntRangeDomain min="1" max="500" />
+
+      </IntVectorProperty>
+      
+      <IntVectorProperty name="PostReconstructionAnnotateFixedDims"
+        command="SetPostReconstructionAnnotateFixedDims"
+        number_of_elements="1"
+        default_values="1"
+        panel_visibility="advanced">
+        <Documentation>
+          Add Annotate Fixed Coordinates After First Apply.
+        </Documentation>
+        <BooleanDomain name="bool" />
+      </IntVectorProperty>
+      
+      <IntVectorProperty name="PostReconstructionThreshold"
+        command="SetPostReconstructionThreshold"
+        number_of_elements="1"
+        default_values="1"
+        panel_visibility="advanced">
+        <Documentation>
+          Add Threshold filter after first Apply.
+        </Documentation>
+        <BooleanDomain name="bool" />
+      </IntVectorProperty>
+      
+      <IntVectorProperty name="PostReconstructionMapping"
+        command="SetPostReconstructionMapping"
+        number_of_elements="1"
+        default_values="1"
+        panel_visibility="advanced">
+        <Documentation>
+          Add Mapping filter after first Apply.
+        </Documentation>
+        <BooleanDomain name="bool" />
+      </IntVectorProperty>
+      
+     <StringVectorProperty name="GmshPath"
+        command="SetGmshPath"
+        number_of_elements="1"
+        default_values="/usr/bin/gmsh"
+        >
+        <Documentation>
+          Path to the Gmsh executable 
+        </Documentation>
+      </StringVectorProperty>
+      
+
+
+      <PropertyGroup label="Generals Options">
+        <Property name="ShowSplashScreen" />
+        <Property name="UpdateOrientationAxesLabels" />
+        <Property name="LicenseNumber" />
+     </PropertyGroup>
+     
+     <PropertyGroup label="Reconstruction">
+        <Property name="GUIMaxNbModes" />
+        <Property name="PostReconstructionAnnotateFixedDims" />
+        <Property name="PostReconstructionThreshold" />
+        <Property name="PostReconstructionMapping" />
+     </PropertyGroup> 
+
+     <PropertyGroup label="Gmsh Interface">
+        <Property name="GmshPath" />
+     </PropertyGroup> 
+     
+    </SettingsProxy>
+ </ProxyGroup>
+
+</ServerManagerConfiguration>

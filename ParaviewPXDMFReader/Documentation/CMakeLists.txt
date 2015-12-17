@@ -1,0 +1,29 @@
+add_to_COPY_ONLY_FILES(
+    images/reader1.png
+    images/reader3.png
+    images/gemlogo.png
+    images/menubar1.png
+    images/menubar2.png
+    images/Annotate1.png
+    images/example2.png
+    images/calculatorglobal1.png
+    images/globaldatatopoint1.png
+    images/globaldatatopoint2.png
+    images/transformwithaxis1.png
+    images/transformwithaxis2.png
+    images/piece_param_1.png
+    images/visu.svg
+    images/pxdmf.svg
+    images/Reconstruction1.png
+    images/Reconstruction2.png
+    images/optimi1.png
+    images/PxdmfSync.png
+    images/Settings1.png
+    images/OnBlocksFilters.png
+    svg.sty
+)
+
+add_to_CONFIG_TO_DOC(
+    index.html.in
+    about.html.in
+)

@@ -1,0 +1,11 @@
+<VTKFile type="vtkMultiBlockDataSet" version="1.0" byte_order="LittleEndian">
+  <vtkMultiBlockDataSet>
+    <DataSet index="0" file="testvtm_0_0.vtu">
+      
+    </DataSet>
+    <DataSet index="1" file="testvtm_1_0.vtu">
+      
+    </DataSet>
+    
+  </vtkMultiBlockDataSet>
+</VTKFile>

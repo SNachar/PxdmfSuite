@@ -1,0 +1,34 @@
+<ServerManagerConfiguration>
+ <ProxyGroup name="filters">
+ <SourceProxy label="ArcLength" name="ArcLength" class="vtkAppendArcLength" >
+         <Documentation long_help="Appends Arc length for input poly lines."
+                     short_help="Appends Arc length for input poly lines.">
+                     Internal filter used by (filters, ProbeLine).
+                     vtkAppendArcLength is used for filter such as
+                     plot-over-line. In such cases, we need to add an attribute
+                     array that is the arc_length over the length of the probed
+                     line. That's when vtkAppendArcLength can be used. It adds
+                     a new point-data array named "arc_length" with the
+                     computed arc length for each of the polylines in the
+                     input. For all other cell types, the arc length is set to
+                     0.</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkPolyData" />
+        </DataTypeDomain>
+        <Documentation>The input.</Documentation>
+      </InputProperty>
+         <Hints>
+        <Visibility replace_input="0" />
+        <!-- View can be used to specify the preferred view for the proxy -->
+        <View type="XYChartView" />
+        <Plotable />
+      </Hints>
+ </SourceProxy>
+</ProxyGroup>
+</ServerManagerConfiguration>

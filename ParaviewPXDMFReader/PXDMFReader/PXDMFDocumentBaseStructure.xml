@@ -1,0 +1,226 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="internal_sources">
+   <SourceProxy name="PXDMFDocumentBaseStructure" class="vtkPXDMFDocumentBaseStructure" label="">
+  
+     <StringVectorProperty  name="VisualizationSpaceInfo"  information_only="1" immediate_update="1">
+        <ArraySelectionInformationHelper attribute_name="VisualizationSpace"/>
+     </StringVectorProperty>
+
+     <StringVectorProperty
+        name="VisualizationSpaceStatus"
+        command="SetVisualizationSpaceStatus"
+        number_of_elements="0" 
+        repeat_command="1"
+        
+        number_of_elements_per_command="2"
+        element_types="2 0"
+        information_property="VisualizationSpaceInfo"
+        animateable="0"
+        label="Visualization Space" 
+        panel_widget="SpaceTimeSelector"
+        >
+        
+       <ArraySelectionDomain name="array_list" >
+          <RequiredProperties>
+             <Property name="VisualizationSpaceInfo" function="ArrayList"/>
+          </RequiredProperties>
+       </ArraySelectionDomain>
+       <Documentation>
+         This property lists which PXDMF space are used for the Visualization Space.
+       </Documentation>
+     </StringVectorProperty> 
+  
+     <StringVectorProperty  name="VisualizationTimeInfo"  
+        information_only="1" 
+        immediate_update="1"
+        >
+        <ArraySelectionInformationHelper attribute_name="VisualizationTime" immediate_update="1"/>
+     </StringVectorProperty>
+
+     <StringVectorProperty
+        name="VisualizationTimeStatus"
+        command="SetVisualizationTimeStatus"
+        number_of_elements="0" 
+        repeat_command="1"
+        number_of_elements_per_command="2"
+        element_types="2 0"
+        information_property="VisualizationTimeInfo"
+        animateable="0"
+        label="Visualization Time"
+        immediate_update="1" panel_visibility="never">
+       <ArraySelectionDomain name="array_list" >
+          <RequiredProperties>
+             <Property name="VisualizationTimeInfo" function="ArrayList" immediate_update="1"/>
+          </RequiredProperties>
+       </ArraySelectionDomain>
+       <Documentation>
+         This property lists which PXDMF space is used for the Visualization Time.
+       </Documentation>
+     </StringVectorProperty>
+      
+     <!-- ================================================================== --> 
+     
+          <DoubleVectorProperty name="TimestepValues"
+        information_only="1">
+       <TimeStepsInformationHelper/>
+     </DoubleVectorProperty>
+     
+     <IntVectorProperty
+        name="PXDMF_Dims"
+        command="GetNumberOfPXDMFDims"
+        information_only="1"
+        number_of_elements="1"
+        default_values="0"
+        
+        >
+        <SimpleIntInformationHelper />
+     </IntVectorProperty>
+     
+    <IntVectorProperty
+        name="PXDMFDimsDataInfo"
+        command="GetNumberOfDimsInEachPXDMFDim"
+        information_only="1"
+        >
+        <IntArrayInformationHelper/>
+     </IntVectorProperty>
+     
+     <StringVectorProperty
+        name="PXDMFDimsNameDataInfo"
+        command="GetPXDMFDimsNamesDataInfo"
+        information_only="1"
+        >
+        <StringArrayHelper/>
+     </StringVectorProperty>
+     
+     <StringVectorProperty
+        name="PXDMFDimsUnitDataInfo"
+        command="GetPXDMFDimsUnitsDataInfo"
+        information_only="1"
+        >
+        <StringArrayHelper/>
+     </StringVectorProperty>
+     
+     <DoubleVectorProperty
+        name="PXDMFDimsMaxRangeDataInfo"
+        command="GetPXDMFDimsMaxRangeDataInfo"
+        information_only="1"
+        >
+        <DoubleArrayInformationHelper/>
+     </DoubleVectorProperty>
+     
+     <DoubleVectorProperty
+        name="PXDMFDimsMinRangeDataInfo"
+        command="GetPXDMFDimsMinRangeDataInfo"
+        information_only="1"
+        >
+     <DoubleArrayInformationHelper/>
+     </DoubleVectorProperty>
+     
+
+
+         <DoubleVectorProperty
+        name="PXDMFDimsPosDataInfo"
+        command="SetPXDMFDimsPosDataInfo"
+        label="FixedDimensions"
+        repeat_command="1"
+        number_of_elements_per_command="1"
+        use_index="1"
+        animateable="0"
+        number_of_elements="0"
+        panel_visibility="never"
+        >
+      </DoubleVectorProperty>
+      
+      
+      
+        <DoubleVectorProperty
+        name="FixedDimensionsUsed"
+        command="GetPXDMFDimsPosDataInfo"
+        information_only="1"
+        panel_visibility="never"
+        >
+   <DoubleArrayInformationHelper/>
+      </DoubleVectorProperty>
+     
+      
+     <StringVectorProperty
+       name="TimeLabelAnnotation"
+       information_only="1" si_class="vtkSITimeLabelProperty">
+     </StringVectorProperty>
+     
+    
+         <IntVectorProperty name="UseInterpolation"
+                        command="SetUseInterpolation"
+                        number_of_elements="1"
+                        default_values="1"
+                        animateable="0"
+                        panel_visibility="advanced">
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+       <Documentation>
+         To use the interpolation for the reconstruction of the field.
+       </Documentation>
+     </IntVectorProperty>
+     
+     <IntVectorProperty name="ExpandFields"
+                        command="SetExpandFields"
+                        number_of_elements="1"
+                        default_values="0"
+                        animateable="0"
+                        panel_visibility="advanced">
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+       <Documentation>
+        if a function is missing expand with ones.
+       </Documentation>
+     </IntVectorProperty>
+     
+     <IntVectorProperty name="ComputeDerivatives"
+                        command="SetComputeDerivatives"
+                        number_of_elements="1"
+                        default_values="0"
+                        animateable="0"
+                        panel_visibility="advanced">
+                        >
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+       <Documentation>
+         To compute the derivatives with respect to the Fixed and the Temporal dimension. (this feature still experimental).
+       </Documentation>
+      <Hints>
+          <PropertyWidgetDecorator type="ComputeDerivatives_decorator" />
+      </Hints>
+     </IntVectorProperty>
+     
+   <IntVectorProperty name="ContinuousUpdate"
+                        command="SetContinuousUpdate"
+                        number_of_elements="1"
+                        default_values="0"
+                        animateable="0"
+                        panel_visibility="advanced"
+                        >
+     <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+     <Documentation>
+         To update the solution in real time (be careful not to use this option with very big datasets).
+       </Documentation>
+     </IntVectorProperty>
+
+     <IntVectorProperty
+        name="DoReconstruction"
+        command="SetDoReconstruction"
+        number_of_elements="1"
+        default_values="1" 
+        animateable="0" 
+        panel_visibility="advanced" >
+        <BooleanDomain name="bool" />
+        <Documentation>
+         In the case we want to load the meshes without doing the reconstruction.
+         Only the Space dimension are transfered to the Visualization space.
+         Time and Fixed dimension wont change anything.
+        </Documentation>
+     </IntVectorProperty>
+     
+     </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

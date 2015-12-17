@@ -1,0 +1,108 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+   <SourceProxy name="GlobalToPoint" class="vtkFieldDataToPoint" label="Global Data To Point">
+     <Documentation
+        long_help="To create a point from field data"
+        short_help="Create a point from  the field data">
+     </Documentation>
+
+     <InputProperty
+         name="Input"
+         command="SetInputConnection">
+       <ProxyGroupDomain name="groups">
+         <Group name="sources"/>
+         <Group name="filters"/>
+       </ProxyGroupDomain>
+       <DataTypeDomain name="input_type">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+	<InputArrayDomain attribute_type="none"
+                          name="input_array"
+                          number_of_components="1" />
+       <Documentation>
+         This property specifies the input dataset for which to use to create de point.
+       </Documentation>
+     </InputProperty>
+    
+     
+     
+      <StringVectorProperty command="SetXColumn"
+                            name="X Pos"
+                            number_of_elements="1"
+                            panel_visibility="default">
+        <ArrayListDomain name="array_list" data_type="VTK_FLOAT VTK_DOUBLE">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <Documentation>This property specifies which data array is going to be
+        used as the X coordinate in the generated polydata
+        dataset.</Documentation>
+      </StringVectorProperty>
+      
+      <StringVectorProperty command="SetYColumn"
+                            name="Y Pos"
+                            number_of_elements="1"
+                            panel_visibility="default">
+        <ArrayListDomain name="array_list"  data_type="VTK_FLOAT VTK_DOUBLE">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <Documentation>This property specifies which data array is going to be
+        used as the Y coordinate in the generated polydata
+        dataset.</Documentation>
+      </StringVectorProperty>
+      <StringVectorProperty command="SetZColumn"
+                            name="Z Pos"
+                            number_of_elements="1"
+                            panel_visibility="default">
+        <ArrayListDomain name="array_list"  data_type="VTK_FLOAT VTK_DOUBLE">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <Documentation>This property specifies which data array is going to be
+        used as the Z coordinate in the generated polydata
+        dataset.</Documentation>
+      </StringVectorProperty>
+      <IntVectorProperty command="SetCreate2DPoints"
+                         default_values="0"
+                         label="2D Points"
+                         name="Create2DPoints"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>Specify whether the points of the polydata are 3D or 2D.
+        If this is set to true then the Z Column will be ignored and the z
+        value of each point on the polydata will be set to 0. By default this
+        will be off.</Documentation>
+      </IntVectorProperty>
+           <IntVectorProperty command="SetPreserveCoordinateAsDataArrays"
+                         default_values="0"
+                         name="KeepAllDataArrays"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>Allow user to keep the field specified as X,Y,Z as Data
+        arrays. By default this will be off.</Documentation>
+      </IntVectorProperty>
+      
+      <IntVectorProperty command="SetExtractFields"
+                         default_values="1"
+                         name="ExtractFields"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>Allow user to use the new point to probe the original field. By default this
+        will be on.</Documentation>
+      </IntVectorProperty>
+      
+     <Hints>
+       <Visibility replace_input="0" />
+       <ShowInMenu category="PXDMF" icon=":/PXDMFIcons/GlobalToPoint.png" />
+     </Hints>
+     
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

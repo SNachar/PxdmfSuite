@@ -1,0 +1,30 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+   <!-- ================================================================== -->
+   <SourceProxy name="filtertest" class="vtkfiltertest" label="Filter Test">
+
+      <Documentation long_help="This filter is the base to create new filters, boa boa boa bla"
+                     short_help="This filter is the base to create new filters" > </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkPointSet" />
+          <DataType value="vtkImageData" />
+          <DataType value="vtkRectilinearGrid" />
+        </DataTypeDomain>
+        <Documentation>This property specifies the input to the testfilter
+        filter.</Documentation>
+      </InputProperty>
+
+
+      
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

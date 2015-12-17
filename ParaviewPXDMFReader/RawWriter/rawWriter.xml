@@ -1,0 +1,81 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="writers">
+    <!-- ================================================================== -->
+    <WriterProxy   name="rawWriter" class="vtkrawWriter" label="raw Writer" >
+      <Documentation short_help="Write data in raw.">Writer to write
+      data in *(PXDMF) files.</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkImageData" />
+        </DataTypeDomain>
+                <InputArrayDomain name="input_array"
+                          number_of_components="1">
+        <!--<RequiredProperties>
+            <Property function="FieldDataSelection"
+                      name="SelectInputScalars" />
+                    </RequiredProperties> -->
+        </InputArrayDomain>
+        
+        <Documentation>The input filter/source whose output dataset is to
+        written to the file.</Documentation>
+      </InputProperty>
+      
+      <StringVectorProperty command="SetFileName"
+                            name="FileName"
+                            number_of_elements="1">
+        <Documentation>The name of the file to be written.</Documentation>
+      </StringVectorProperty>
+      
+      <IntVectorProperty command="SetWriteHeader"
+                         default_values="0"
+                         name="UseWriteHeader"
+                         label="Write Meta Data (in txt file)"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>print a file with the extention txt with the meta data</Documentation>
+      </IntVectorProperty>
+      
+      
+      <StringVectorProperty command="SetInputArrayToProcess"
+                            element_types="0 0 0 0 2"
+                            label="Scalars"
+                            name="SelectInputScalars"
+                            number_of_elements="5">
+        <ArrayListDomain attribute_type="Scalars"
+                         name="array_list">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <FieldDataDomain name="field_list">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </FieldDataDomain>
+        <Documentation>The value of this property contains the name of the
+        scalar array to write to disk.</Documentation>
+      </StringVectorProperty>
+      
+      
+      <Hints>
+        <Property name="Input"
+                  show="1" />
+        <Property name="FileName"
+                  show="1" />      
+        <Property name="UseWriteHeader" 
+                  show="1" />            
+        <Property name="SelectInputScalarsr" 
+                   show="1" />
+        <WriterFactory extensions="raw"
+                       file_description="Raw Data File" />
+      </Hints>
+    </WriterProxy> 
+  </ProxyGroup>
+</ServerManagerConfiguration>

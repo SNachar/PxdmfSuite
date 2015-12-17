@@ -1,0 +1,15 @@
+
+IF(PARAVIEW_BUILD_QT_GUI)
+
+add_SOURCES( MostUsedActions.cxx )
+
+
+add_to_QT4_WRAP_CPP( MostUsedActions.h )
+
+
+
+
+#add_SOURCES( IFACE_SRCS )
+#add_GUI_INTERFACES( IFACES )
+
+ENDIF(PARAVIEW_BUILD_QT_GUI)

@@ -1,0 +1,6 @@
+#//TODO to clean
+# ADD_PARAVIEW_ACTION_GROUP(IFACE_Edit IFACE_SRCS_Edit
+#                           CLASS_NAME PXDMFSettingEditMenuActions
+#                           GROUP_NAME "MenuBar/Edit")
+#  add_GUI_INTERFACES(${IFACE_Edit})
+#  add_SOURCES(${IFACE_SRCS_Edit})

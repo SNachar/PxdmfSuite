@@ -1,0 +1,121 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+   <SourceProxy name="TransformFilterWithAxis" class="vtkTransformFilterWithAxis" label="Transform With Axis">
+      <Documentation long_help="This filter applies transformation to the polygons and aditionals moves the axis. "
+                     short_help="Transform polygonal data.">The Transform
+                     filter allows you to specify the position, size, and
+                     orientation of polygonal, unstructured grid, and
+                     curvilinear data sets. Additionaly will 
+                     move/scale/rotate the axis</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkPointSet" />
+          <DataType value="vtkImageData" />
+          <DataType value="vtkRectilinearGrid" />
+        </DataTypeDomain>
+        <Documentation>This property specifies the input to the Transform
+        filter.</Documentation>
+      </InputProperty>
+      <ProxyProperty command="SetTransform"
+                     name="Transform"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups">
+          <Group name="transforms" />
+        </ProxyGroupDomain>
+        <ProxyListDomain name="proxy_list">
+          <Proxy group="extended_sources"
+                 name="Transform3" />
+        </ProxyListDomain>
+        <Documentation>The values in this property allow you to specify the
+        transform (translation, rotation, and scaling) to apply to the input
+        dataset.</Documentation>
+      </ProxyProperty>
+      
+      <StringVectorProperty
+        name="Title X"
+        command="SetTitleNameX"
+        default_values=""
+        number_of_elements="1"
+        >
+        <Documentation>Set the titles of the dataset </Documentation>
+      </StringVectorProperty>
+      
+      <StringVectorProperty
+        name="Title Y"
+        command="SetTitleNameY"
+        default_values=""
+        number_of_elements="1"
+        >
+        <Documentation>Set the titles of the dataset </Documentation>
+      </StringVectorProperty>
+      
+      <StringVectorProperty
+        name="Title Z"
+       command="SetTitleNameZ"
+        default_values=""
+        number_of_elements="1"
+        >
+        <Documentation>Set the titles of the dataset </Documentation>
+      </StringVectorProperty>
+      
+      <StringVectorProperty
+        name="Unit X"
+       command="SetUnitNameX"
+        default_values=""
+        number_of_elements="1"
+        panel_visibility="advanced"
+        >
+        <Documentation>Set the titles of the dataset </Documentation>
+      </StringVectorProperty>
+      
+      <StringVectorProperty
+        name="Unit Y"
+       command="SetUnitNameY"
+        default_values=""
+        number_of_elements="1"
+        panel_visibility="advanced"
+        >
+        <Documentation>Set the titles of the dataset </Documentation>
+      </StringVectorProperty>
+      
+      <StringVectorProperty
+        name="Unit Z"
+       command="SetUnitNameZ"
+        default_values=""
+        number_of_elements="1"
+        panel_visibility="advanced"
+        >
+        <Documentation>Set the titles of the dataset </Documentation>
+      </StringVectorProperty>
+      
+      <IntVectorProperty command="SetMoveRotateScaleAxis"
+                         default_values="1"
+                         name="OnAxesAlso"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>If this property is set to 1 the axis of the input will
+         be modified with the tranform.</Documentation>
+      </IntVectorProperty>
+      
+      <IntVectorProperty command="SetLabelRange"
+                         default_values="1"
+                         name="AddLabelRange"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>If this property is set to 1 the original axis label are
+          passed to the new created axis. So axis follows the tranformation.</Documentation>
+      </IntVectorProperty>
+      
+    <Hints>
+      <ShowInMenu category="PXDMF" icon=":/PXDMFIcons/TransformFilterWithAxis.png" />
+    </Hints>
+    
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

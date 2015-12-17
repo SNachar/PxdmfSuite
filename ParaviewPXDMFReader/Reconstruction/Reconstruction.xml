@@ -1,0 +1,47 @@
+<ServerManagerConfiguration> 
+  <ProxyGroup name="filters">
+   <SourceProxy name="Reconstruction" class="vtkReconstruction" label="Reconstruction"
+   base_proxygroup="internal_sources"
+   base_proxyname="PXDMFDocumentBaseStructure" >
+     <Documentation
+        long_help="To reconstruct a solution"
+        short_help="To reconstruct a solution"> 
+     </Documentation>
+
+     <InputProperty
+         name="Input"
+         clean_command="RemoveAllInputs"
+         command="AddInputConnection"
+         multiple_input="1"
+                     >
+       <ProxyGroupDomain name="groups">
+         <Group name="sources"/>
+         <Group name="filters"/>
+       </ProxyGroupDomain>
+       
+       <DataTypeDomain name="input_type" composite_data_supported="1">
+          <DataType value="vtkGenericDataSet" />
+          <DataType value="vtkDataObject" />
+       </DataTypeDomain>
+        
+       <Documentation>
+         To reconstrunct and plot data into the space.
+       </Documentation>
+     </InputProperty>
+     
+     <Hints>
+       <Visibility replace_input="1" />
+       <ShowInMenu category="PXDMF" icon=":/PXDMFIcons/Reconstruction.png" />
+     </Hints>
+     
+          <PropertyGroup label="Options">
+            <Property name="ComputeDerivatives" />
+            <Property name="UseInterpolation" />
+            <Property name="ContinuousUpdate" />
+            <Property name="ExpandFields" />
+            <Property name="DoReconstruction" panel_visibility="never"/>
+     </PropertyGroup> 
+     
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

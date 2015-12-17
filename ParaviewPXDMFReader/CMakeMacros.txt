@@ -1,0 +1,179 @@
+macro (add_GUI_INTERFACES)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND GUI_INTERFACES_files "${_relPath}/${_src}")
+        else()
+            list (APPEND GUI_INTERFACES_files "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate GUI_INTERFACES_files to parent directory
+        set (GUI_INTERFACES_files ${GUI_INTERFACES_files} PARENT_SCOPE)
+    endif()
+endmacro()
+
+macro (add_SOURCES)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+      if(IS_ABSOLUTE ${_src})
+          list (APPEND SOURCES_files "${_src}")
+      else(IS_ABSOLUTE ${_src})	
+        if (_relPath)
+            list (APPEND SOURCES_files "${_relPath}/${_src}")
+        else()
+            list (APPEND SOURCES_files "${_src}")
+        endif()
+      endif(IS_ABSOLUTE ${_src})
+    endforeach()
+    if (_relPath)
+        # propagate SOURCES_files to parent directory
+        set (SOURCES_files ${SOURCES_files} PARENT_SCOPE)
+    endif()
+endmacro()
+
+
+macro (add_SERVER_MANAGER_XML)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND SERVER_MANAGER_XML_files "${_relPath}/${_src}")
+        else()
+            list (APPEND SERVER_MANAGER_XML_files "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate SERVER_MANAGER_XML_files to parent directory
+        set (SERVER_MANAGER_XML_files ${SERVER_MANAGER_XML_files} PARENT_SCOPE)
+    endif()
+endmacro()
+
+
+
+macro (add_SERVER_MANAGER_SOURCES)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND SERVER_MANAGER_SOURCES_files "${_relPath}/${_src}")
+        else()
+            list (APPEND SERVER_MANAGER_SOURCES_files "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate SERVER_MANAGER_SOURCES_files to parent directory
+        set (SERVER_MANAGER_SOURCES_files ${SERVER_MANAGER_SOURCES_files} PARENT_SCOPE)
+    endif()
+endmacro()
+
+#macro (add_GUI_RESOURCE_FILES)
+#    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+#    foreach (_src ${ARGN})
+#        if (_relPath)
+#            list (APPEND GUI_RESOURCE_FILES_files "${_relPath}/${_src}")
+#        else()
+#            list (APPEND GUI_RESOURCE_FILES_files "${_src}")
+#        endif()
+#    endforeach()
+#    if (_relPath)
+#        # propagate GUI_RESOURCE_FILES_files to parent directory
+#        set (GUI_RESOURCE_FILES_files ${GUI_RESOURCE_FILES_files} PARENT_SCOPE)
+#    endif()
+#endmacro()
+
+macro (add_to_QT4_WRAP_CPP)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND to_QT4_WRAP_CPP_files "${_relPath}/${_src}")
+        else()
+            list (APPEND to_QT4_WRAP_CPP_files "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate to_QT4_WRAP_CPP_files to parent directory
+        set (to_QT4_WRAP_CPP_files ${to_QT4_WRAP_CPP_files} PARENT_SCOPE)
+    endif()
+endmacro()
+
+macro (add_to_QT4_WRAP_UI)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND to_QT4_WRAP_UI_files "${_relPath}/${_src}")
+        else()
+            list (APPEND to_QT4_WRAP_UI_files "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate to_QT4_WRAP_UI_files to parent directory
+        set (to_QT4_WRAP_UI_files ${to_QT4_WRAP_UI_files} PARENT_SCOPE)
+    endif()
+endmacro()
+
+#-----------------------------------------------------------------------------
+
+macro (add_subdirectory_path)
+  INCLUDE_DIRECTORIES(  
+    ${CMAKE_CURRENT_BINARY_DIR}/${ARGN}/
+    ${CMAKE_CURRENT_SOURCE_DIR}/${ARGN}/
+  )
+  add_subdirectory(${ARGN})
+endmacro()
+
+#-----------------------------------------------------------------------------
+
+macro (add_to_COPY_ONLY_FILES)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND COPY_ONLY_FILES "${_relPath}/${_src}")
+        else()
+            list (APPEND COPY_ONLY_FILES "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate COPY_ONLY_FILES to parent directory
+        set (COPY_ONLY_FILES ${COPY_ONLY_FILES} PARENT_SCOPE)
+    endif()
+endmacro()
+
+macro (COPY_TO_DOC)
+ foreach(file ${ARGN})
+  get_filename_component( filename ${file} NAME)
+  #message("coping ${file} --> ${CMAKE_CURRENT_BINARY_DIR}/doc/${filename}" )
+  configure_file(
+    ${file}
+    "${CMAKE_CURRENT_BINARY_DIR}/doc/${filename}"
+    COPYONLY)
+ endforeach()
+endmacro()
+
+#-----------------------------------------------------------------------------
+macro (add_to_CONFIG_TO_DOC)
+    file (RELATIVE_PATH _relPath "${PXMDReader_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND CONFIG_TO_DOC_FILES "${_relPath}/${_src}")
+        else()
+            list (APPEND CONFIG_TO_DOC_FILES "${_src}")
+        endif()
+    endforeach()
+    if (_relPath)
+        # propagate CONFIG_TO_DOC_FILES to parent directory
+        set (CONFIG_TO_DOC_FILES ${CONFIG_TO_DOC_FILES} PARENT_SCOPE)
+    endif()
+endmacro()
+
+macro (COFIG_TO_DOC)
+ foreach(file ${ARGN})
+  get_filename_component( filename ${file} NAME)
+  get_filename_component( filename_we ${file} NAME_WE)
+
+  #message("configuring ${file} --> ${CMAKE_CURRENT_BINARY_DIR}/doc/${filename_we}.html" )
+  configure_file(
+    ${file}
+    "${CMAKE_CURRENT_BINARY_DIR}/doc/${filename_we}.html"
+    @ONLY)
+ endforeach()
+endmacro()
+

@@ -1,0 +1,146 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="sources">
+   <SourceProxy name="PXDMFReader"  label="PXDMFReader" 
+   class="vtkPXDMFReader"
+   base_proxygroup="internal_sources"
+   base_proxyname="PXDMFDocumentBaseStructure">
+   >
+     <Documentation
+        long_help="Read a separated representation solution stored in PXDMF file format"
+        short_help="Read a PXDMF file format">
+     </Documentation>
+   
+     <StringVectorProperty
+        name="FileName"
+        command="SetFileName"
+        animateable="0"
+        number_of_elements="1"
+        panel_visibility="never">
+        <FileListDomain name="files"/>
+        <Documentation>
+          This property specifies the file name for the PXDMF reader.
+        </Documentation>
+     </StringVectorProperty>
+     
+     <IntVectorProperty name="Refresh"
+                        command="SetRefresh"
+                        number_of_elements="1"
+                        default_values="0"
+                        animateable="0"
+                        repeat_command="1"
+                        panel_visibility="advanced"
+                        panel_widget="RefreshButton"
+                        >
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+        <Documentation>
+          This is button is experimental. It work if you dont change the number of mode in the solution. Or if you put the "Maximun number of individual terms in the GUI" to 1 in the Settings.
+        </Documentation>
+     </IntVectorProperty>
+   
+
+ <!-- ================================================================== -->
+     <StringVectorProperty  name="PointArrayInfo"  information_only="1" immediate_update="1">
+        <ArraySelectionInformationHelper attribute_name="Point"/>
+     </StringVectorProperty>
+
+     <StringVectorProperty
+        name="PointArrayStatus"
+        command="SetPointArrayStatus"
+        number_of_elements="0" 
+        repeat_command="1"
+        
+        number_of_elements_per_command="2"
+        element_types="2 0"
+        information_property="PointArrayInfo"
+        animateable="0"
+        label="Point Arrays"
+        panel_widget="PointCellDataSelector" 
+        >
+
+       <ArraySelectionDomain name="array_list"> 
+          <RequiredProperties>
+             <Property name="PointArrayInfo" function="ArrayList"/>
+          </RequiredProperties>
+       </ArraySelectionDomain>
+       <Documentation>
+         This property lists which the point-centered arrays to read.
+       </Documentation>
+     </StringVectorProperty>
+ <!-- ================================================================== -->
+     <StringVectorProperty 
+        name="CellArrayInfo"
+        information_only="1">
+        <ArraySelectionInformationHelper attribute_name="Cell"/>
+     </StringVectorProperty>
+
+     <StringVectorProperty
+        name="CellArrayStatus"
+        command="SetCellArrayStatus"
+        number_of_elements="0" 
+        repeat_command="1"
+        number_of_elements_per_command="2"
+        element_types="2 0"
+        information_property="CellArrayInfo"
+        animateable="0"
+        label="Cell Arrays"  panel_visibility="never">
+       <ArraySelectionDomain name="array_list">
+          <RequiredProperties>
+             <Property name="CellArrayInfo" function="ArrayList"/>
+          </RequiredProperties>
+       </ArraySelectionDomain>
+       <Documentation>
+         This property lists which the cell-centered arrays to read.
+       </Documentation>
+     </StringVectorProperty>
+       
+      <IntVectorProperty name="UseStride"
+                        command="GetUseStride"
+                        number_of_elements="1"
+                        default_values="1"
+                        information_only="1"
+                        >
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+       <Documentation>
+         This hidden property must always be set to 1 to use the stride.C
+       </Documentation>
+     </IntVectorProperty>
+     
+     <IntVectorProperty
+        name="Stride"
+        command="SetStride"
+        number_of_elements="3"
+        default_values="1 1 1" 
+        animateable="0" 
+        panel_visibility="advanced">
+        <IntRangeDomain name="range" min="1 1 1" />
+        <Documentation>
+         If loading structured data, this property indicate the number of
+         indices per dimension (X, Y, or Z) to skip between each point included
+         in this output.
+        </Documentation>
+     </IntVectorProperty>
+
+     <PropertyGroup label="Options">
+            <Property name="Refresh" />
+            <Property name="ComputeDerivatives" />
+            <Property name="UseInterpolation" />
+            <Property name="ContinuousUpdate" />
+            <Property name="ExpandFields" />
+            <Property name="DoReconstruction" panel_visibility="advanced"/>
+            <Property name="Stride" />
+     </PropertyGroup> 
+     
+     <PropertyGroup >
+            <Property name="PointArrayStatus" />
+            <Property name="VisualizationSpaceStatus" />
+     </PropertyGroup>  
+     
+      <Hints>
+        <ReaderFactory extensions="pxdmf"
+                       file_description="Separated Variables Files" />
+     </Hints>
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

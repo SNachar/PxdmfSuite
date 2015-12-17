@@ -1,0 +1,9 @@
+
+ADD_EXECUTABLE(TestvtkPXDMFDocument_bin TestvtkPXDMFDocument)
+
+TARGET_LINK_LIBRARIES(TestvtkPXDMFDocument_bin PXDMFReader ${GemLib_LIBRARIES} )
+
+ADD_TEST(PLUGINPXDMF-vtkPXDMFDocument ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestvtkPXDMFDocument_bin ${TEST_DIRECTORY})
+
+
+

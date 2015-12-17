@@ -1,0 +1,199 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" []>
+<Xdmf Version="2.0" xmlns:xi="http://www.w3.org/2001/XInclude" >
+<Domain Name="tests/binary_comp_single.pxdmf">
+<Grid Name="PGD1" >
+<Information Name="Dims" Value="1" />
+<Information Name="Dim0" Value="x" />
+<Topology TopologyType="Polyline" NumberOfElements="34"  NodesPerElement="2"  >
+<DataItem  Format="XML" NumberType="Int" Dimensions="34 2">
+ 0 1
+ 1 2
+ 2 3
+ 3 4
+ 4 5
+ 5 6
+ 6 7
+ 7 8
+ 8 9
+ 9 10
+ 10 11
+ 11 12
+ 12 13
+ 13 14
+ 14 15
+ 15 16
+ 16 17
+ 17 18
+ 18 19
+ 19 20
+ 20 21
+ 21 22
+ 22 23
+ 23 24
+ 24 25
+ 25 26
+ 26 27
+ 27 28
+ 28 29
+ 29 30
+ 30 31
+ 31 32
+ 32 33
+ 33 34
+</DataItem>
+</Topology>
+<Geometry GeometryType="XYZ">
+<DataItem  Format="HDF" NumberType="Float" Precision="4" Dimensions="35 3">
+binary_comp_single.h5:/dataset0/DataItem0
+</DataItem>
+</Geometry>
+<Attribute Name="dep_x_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 35">
+ 0.020386353 0.32041072 0.61415559 0.31139441 0.27546799 0.83064016 0.72115718 0.76454388 0.3843316 0.0013044829 0.16778424 0.515494 0.59381261 0.59282706 0.12159033 0.032066248 0.52417119 0.30641201 0.065119407 0.24476622 0.2066735 0.7434126 0.82317228 0.97979772 0.2841143 0.030139846 0.89617697 0.7207455 0.75888642 0.19348585 0.16793259 0.84943222 0.66072542 0.14816306 0.64536194
+</DataItem>
+</Attribute>
+<Attribute Name="dep_x_1" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 35">
+ 0.14263278 0.90475004 0.015897929 0.19277201 0.026710248 0.76427822 0.82271737 0.120567 0.027923207 0.0069979757 0.15043573 0.41888251 0.27698091 0.58514026 0.078593618 0.1681684 0.84136865 0.19116055 0.94601002 0.62540418 0.2417431 0.15600382 0.093985419 0.65322075 0.8672328 0.76093838 0.61887465 0.46385001 0.007141975 0.091451774 0.94224811 0.13728307 0.038489689 0.1847641 0.85655328
+</DataItem>
+</Attribute>
+<Attribute Name="dep_y_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 35">
+ 0.8533757 0.49403807 0.78087745 0.27465381 0.96737974 0.99052933 0.084449049 0.32979342 0.26829877 0.21592282 0.76702176 0.36505444 0.15401728 0.165022 0.89336397 0.94578981 0.51746739 0.018373397 0.41930582 0.12208515 0.95184785 0.27018035 0.89365323 0.8951917 0.77553208 0.90882093 0.016680378 0.95928872 0.075252634 0.28513346 0.48811714 0.97057173 0.56811329 0.27397034 0.12908336
+</DataItem>
+</Attribute>
+<Attribute Name="dep_z_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 35">
+ 0.15519206 0.26881183 0.43388944 0.39590346 0.42524649 0.61438927 0.4468054 0.012023338 0.034270895 0.39877045 0.97945008 0.54276891 0.91238705 0.32415902 0.29051652 0.87897385 0.77914419 0.39441211 0.88232597 0.42566847 0.46637798 0.42493118 0.45521004 0.69542456 0.095578228 0.73346032 0.13001752 0.49652871 0.25965848 0.59166668 0.22761818 0.95511771 0.063009501 0.18324716 0.62424199
+</DataItem>
+</Attribute>
+<Attribute Name="P_0" Center="Cell"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 34">
+ 0.22215531 0.64322663 0.77665623 0.43003405 0.62106153 0.27907466 0.47804778 0.31474159 0.8271699 0.74316127 0.14431119 0.068265094 0.53213654 0.74395528 0.83573362 0.72066298 0.88762261 0.16285338 0.20123984 0.88196153 0.46195894 0.18704983 0.72488226 0.88355264 0.79801125 0.84297232 0.53804628 0.20958907 0.53044546 0.84330239 0.21534031 0.71672588 0.86266832 0.47126433
+</DataItem>
+</Attribute>
+</Grid>
+<Grid Name="PGD2" >
+<Information Name="Dims" Value="1" />
+<Information Name="Dim0" Value="y" />
+<Topology TopologyType="Polyline" NumberOfElements="11"  NodesPerElement="2"  >
+<DataItem  Format="XML" NumberType="Int" Dimensions="11 2">
+ 0 1
+ 1 2
+ 2 3
+ 3 4
+ 4 5
+ 5 6
+ 6 7
+ 7 8
+ 8 9
+ 9 10
+ 10 11
+</DataItem>
+</Topology>
+<Geometry GeometryType="XYZ">
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="12 3">
+ 0 0 0
+ 1 0 0
+ 2 0 0
+ 3 0 0
+ 4 0 0
+ 5 0 0
+ 6 0 0
+ 7 0 0
+ 8 0 0
+ 9 0 0
+ 10 0 0
+ 11 0 0
+</DataItem>
+</Geometry>
+<Attribute Name="dep_x_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 1 1 1 1 1 1 1 1 1 1 1 1
+</DataItem>
+</Attribute>
+<Attribute Name="dep_x_1" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 2 1 1 4 1 7 1 1 0 1 -1 1
+</DataItem>
+</Attribute>
+<Attribute Name="dep_y_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 6 1 1 1 1 1 1 1 1 1 1 1
+</DataItem>
+</Attribute>
+<Attribute Name="dep_z_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 0.29140578 0.13718742 0.18893346 0.95661705 0.29661309 0.23720288 0.66015753 0.0042959679 0.078168468 0.30958436 0.22397071 0.6952894
+</DataItem>
+</Attribute>
+<Attribute Name="P_0" Center="Cell"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 11">
+ 1 2 3 4 5 6 7 8 9 10 11
+</DataItem>
+</Attribute>
+</Grid>
+<Grid Name="PGD3" >
+<Information Name="Dims" Value="1" />
+<Information Name="Dim0" Value="z" />
+<Topology TopologyType="Polyvertex" NumberOfElements="12"  NodesPerElement="1"  >
+<DataItem  Format="XML" NumberType="Int" Dimensions="12 1">
+ 0
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+ 10
+ 11
+</DataItem>
+</Topology>
+<Geometry GeometryType="XYZ">
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="12 3">
+ 0 0 0
+ 1 0 0
+ 2 0 0
+ 3 0 0
+ 4 0 0
+ 5 0 0
+ 6 0 0
+ 7 0 0
+ 8 0 0
+ 9 0 0
+ 10 0 0
+ 11 0 0
+</DataItem>
+</Geometry>
+<Attribute Name="dep_x_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 3 1 1 1 1 1 1 1 1 1 1 1
+</DataItem>
+</Attribute>
+<Attribute Name="dep_x_1" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 4 1 1 1 1 1 1 1 1 1 1 1
+</DataItem>
+</Attribute>
+<Attribute Name="dep_y_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 7 1 1 1 1 1 1 1 1 1 1 1
+</DataItem>
+</Attribute>
+<Attribute Name="dep_z_0" Center="Node"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 0.7002319 0.85181529 0.5590596 0.57033238 0.53092033 0.85888634 0.44634584 0.38338124 0.59535873 0.30503997 0.10110778 0.37193937
+</DataItem>
+</Attribute>
+<Attribute Name="P_0" Center="Cell"  AttributeType="Scalar"  >
+<DataItem  Format="XML" NumberType="Float" Precision="4" Dimensions="1 12">
+ 2 3 4 5 6 7 8 9 10 11 12 13
+</DataItem>
+</Attribute>
+</Grid>
+</Domain>
+</Xdmf>

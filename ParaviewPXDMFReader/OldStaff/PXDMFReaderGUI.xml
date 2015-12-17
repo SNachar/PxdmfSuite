@@ -1,0 +1,5 @@
+<ParaViewReaders>
+  <Reader name="PXDMFReader" extensions="pxdmf"
+    file_description="Separated Variables Files">
+  </Reader>
+</ParaViewReaders>

@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="PXDMF" />
+<meta name="description" content="PXDMF Reader About" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>About</title>
+<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+
+<body>
+ParaView PXDMF Reader @PXDMFReader_VERSION_MAJOR@.@PXDMFReader_VERSION_MINOR@.@PXDMFReader_VERSION_PATCH@<br />
+
+<IMG SRC="gemlogo.png"  ALT="GEM" TITLE="GEM LOGO" />
+
+<p>
+The PXDMF Reader can quickly reconstruct solutions stored in separated representation. The data exploration can be done interactively in 3D or programmatically using ParaView's batch processing capabilities.
+<p>
+ParaView was developed to analyze extremely large datasets using distributed memory computing resources.
+<br><br>
+<a href="http://rom.ec-nantes.fr/resources/separated-variables-representation-visualisation/"> PXDMF Reader Web Site</a>
+<br><br>
+<a href="http://www.paraview.org">ParaView Web Site</a>
+<br><br>
+<a href="http://www.paraview.org/doc/nightly/html/classes.html">ParaView Doxygen</a>
+<p>
+<pre>
+
+  This software is distributed WITHOUT ANY WARRANTY; without even
+  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+  PURPOSE.  See the above copyright notice for more information.
+</pre>
+</body>
+</html>

@@ -1,0 +1,82 @@
+/*=========================================================================
+
+  Program:   PXDMFReader Plugin
+  Module:    pqAboutGEMStarter.cxx
+
+  Copyright (c) GeM, Ecole Centrale Nantes.
+  All rights reserved.
+  Copyright: See COPYING file that comes with this distribution
+
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
+
+#include "pqAboutGEMStarter.h"
+
+// Qt Includes.
+#include <QSplashScreen>
+#include <QBitmap>
+#include "QTimer"
+
+// ParaView Includes.
+#include "pqSettings.h"
+#include "pqApplicationCore.h"
+
+//plugin Includes
+#include "AxesLabels.h"
+#include "PostFilters.h"
+
+
+pqAboutGEMStarter ::pqAboutGEMStarter ( QObject *p )  : QObject ( p ) {
+    this->Splash = NULL;
+
+
+    };
+//-----------------------------------------------------------------------------
+pqAboutGEMStarter ::~pqAboutGEMStarter() {
+    if ( this->Splash ) {
+        }
+    };
+//-----------------------------------------------------------------------------
+std::string pqAboutGEMStarter::version = "@PXDMFReader_VERSION_MAJOR@.@PXDMFReader_VERSION_MINOR@.@PXDMFReader_VERSION_PATCH@";
+//Callback for startup;
+void pqAboutGEMStarter::onStartup() {
+   
+    this->AxesLabelsB = new pqAxesLabels(this);
+    this->PostFiltersB = new pqPostFilters(this);
+
+    pqSettings *settings = pqApplicationCore::instance()->settings();
+
+    bool show = settings->value ( "PxdmfSettings.ShowSplashScreen",true ).toBool();
+
+    if ( show ) {
+        QTimer::singleShot ( 3000, this, SLOT ( show() ) );
+        }
+    };
+//
+void pqAboutGEMStarter::show() {
+    QPixmap pixmap ( ":/PXDMFReaderPanel/splash.png" );
+    this->Splash = new QSplashScreen ( pixmap, Qt::WindowStaysOnTopHint );
+    this->Splash->setMask ( pixmap.createMaskFromColor ( QColor ( Qt::transparent ) ) );
+    this->Splash->showMessage ( "rom.ec-nantes.fr \n V. @PXDMFReader_VERSION_MAJOR@.@PXDMFReader_VERSION_MINOR@.@PXDMFReader_VERSION_PATCH@ Compilation Flags @PXDMFReader_COMPILE_FLAGS@", Qt::AlignBottom | Qt::AlignHCenter );
+    this->Splash->show();
+    QTimer::singleShot ( 5000, this, SLOT ( close() ) );
+    }
+//
+void pqAboutGEMStarter::close() {
+    if ( this->Splash ) {
+        this->Splash->close();
+        this->Splash = 0;
+        }
+    }
+//Callback for Shutdown;
+void pqAboutGEMStarter::onShutdown() {
+      delete this->AxesLabelsB;
+      delete this->PostFiltersB; 
+  
+    }
+//
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32px"
+   height="32px"
+   id="svg3895"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="AddZeros.svg"
+   inkscape:export-filename="/home/fbordeu/projects/PGD/ParaviewPXDMFReader/AddZeros/AddZeros.png"
+   inkscape:export-xdpi="600"
+   inkscape:export-ydpi="600">
+  <defs
+     id="defs3897" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="12.049947"
+     inkscape:cx="16.241612"
+     inkscape:cy="18.744358"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1170"
+     inkscape:window-height="808"
+     inkscape:window-x="679"
+     inkscape:window-y="198"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata3900">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       transform="translate(17.676426,5.7261664)"
+       style="font-size:32px;font-style:oblique;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee Bold Oblique"
+       id="flowRoot2985">
+      <path
+         d="m -10.985352,14.928537 0,-4.385742 -4.376953,0 0,-0.7207035 4.376953,0 0,-4.3681641 0.703125,0 0,4.3681641 4.3945317,0 0,0.7207035 -4.3945317,0 0,4.385742 -0.703125,0"
+         style="font-size:18px;font-style:normal;font-weight:normal;font-family:Times New Roman;-inkscape-font-specification:'Times New Roman,'"
+         id="path2994"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 4.2947628,16.899019 -9.3076172,0 0,-0.738281 9.3076172,0 0,0.738281"
+         style="font-size:18px;font-style:normal;font-weight:normal;font-family:Times New Roman;-inkscape-font-specification:'Times New Roman,'"
+         id="path2996"
+         inkscape:connector-curvature="0" />
+      <path
+         d="M 4.1230469,10.279123 C 4.1230462,8.919755 4.3281241,7.7508108 4.7382812,6.7722868 5.1484358,5.7879222 5.6933572,5.055501 6.3730469,4.5750211 6.9003872,4.1941737 7.4453085,4.0037443 8.0078125,4.0037321 c 0.9140571,1.22e-5 1.7343687,0.465832 2.4609375,1.3974609 0.908195,1.1543065 1.362296,2.7187581 1.362305,4.693359 -9e-6,1.382818 -0.199227,2.557621 -0.597657,3.524414 -0.398444,0.966799 -0.90821,1.669923 -1.5292964,2.109375 -0.61524,0.433594 -1.209966,0.650391 -1.7841797,0.650391 -1.1367221,0 -2.0830102,-0.670898 -2.8388672,-2.012695 C 4.4423818,13.23518 4.1230462,11.872877 4.1230469,10.279123 m 1.7226562,0.219726 c -2.3e-6,1.640629 0.2021459,2.979495 0.6064453,4.016602 0.3339811,0.873047 0.8320275,1.30957 1.4941407,1.30957 0.3164014,0 0.6445261,-0.140624 0.984375,-0.421875 C 9.270502,15.116038 9.5283143,14.638499 9.7041016,13.970529 9.9736263,12.96272 10.108392,11.541823 10.108398,9.7078336 10.108392,8.3484665 9.9677669,7.2146785 9.6865234,6.3064665 9.4755799,5.6326489 9.2031193,5.1551103 8.8691406,4.8738493 8.6289011,4.6805014 8.3388623,4.5838218 7.9990234,4.5838102 7.6005818,4.5838218 7.24609,4.7625326 6.9355469,5.119943 6.5136688,5.6062817 6.2265597,6.3709294 6.0742187,7.4138883 5.9218726,8.4568648 5.8457008,9.4851841 5.8457031,10.498849"
+         style="font-size:18px;font-style:normal;font-weight:normal;font-family:Times New Roman;-inkscape-font-specification:'Times New Roman,'"
+         id="path2998"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

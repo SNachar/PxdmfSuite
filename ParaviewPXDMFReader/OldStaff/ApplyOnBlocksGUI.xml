@@ -1,0 +1,15 @@
+<ParaViewFilters> 
+  <!--<Category name="PXDMF" menu_label="&amp;PXDMF" show_in_toolbar="1">
+       adds a new category and then adds our filter to it 
+      <Filter name="ApplyOnBlocks" icon=":/PXDMFIcons/ApplyOnBlocks.png" />
+  </Category>-->
+  <Category name="OnBlocksFilters" menu_label="&amp;On Blocks Filters" show_in_toolbar="0">
+      <!-- adds a new category and then adds our filter to it -->
+      <Filter name="ClipOnBlock" icon=":/pqWidgets/Icons/pqClip24.png"/>
+      <Filter name="ExtractSurfaceOnBlock" />
+      <Filter name="FeatureEdgesOnBlock" />
+      <Filter name="ExtractSubsetOnBlock" icon=":/pqWidgets/Icons/pqExtractGrid24.png" />
+      <Filter name="ShrinkFilterOnBlock" />
+      <Filter name="CalculatorFilterOnBlock" icon=":/pqWidgets/Icons/pqCalculator24.png" />
+  </Category>  
+</ParaViewFilters>

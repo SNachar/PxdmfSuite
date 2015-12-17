@@ -1,0 +1,5 @@
+<ParaViewWriters>
+  <Writer name="rawWriter" extensions="raw"
+    file_description="raw Files">
+  </Writer>
+</ParaViewWriters>

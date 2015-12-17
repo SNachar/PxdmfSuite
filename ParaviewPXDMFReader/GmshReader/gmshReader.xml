@@ -1,0 +1,87 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="internal_sources">
+    <SourceProxy name="gmshReader"  label="gmshReader" class="vtkgmshReader"  >
+      <Documentation long_help="Read a gmsh mesh/pos file" short_help="Read a gmsh mesh/pos file" />
+    
+      <StringVectorProperty
+        name="FileName"
+        command="SetFileName"
+        animateable="0"
+        number_of_elements="1"
+        panel_visibility="never">
+        <FileListDomain name="files"/>
+        <Documentation>
+          This property specifies the file name for the gmshReader reader.
+        </Documentation>
+      </StringVectorProperty>
+    
+      <Property name="Refresh"
+               command="Modified"
+               panel_visibility="advanced"
+               panel_widget="command_button">
+                         
+        <Documentation>
+          This is button is experimental.
+        </Documentation>
+      </Property>
+
+      <PropertyGroup label="Options">
+         <Property name="Refresh" />
+      </PropertyGroup> 
+   
+      <Hints>
+         <ReaderFactory extensions="msh pos" file_description="Gmsh mesh/pos file" />
+      </Hints>
+    </SourceProxy>
+  </ProxyGroup> 
+  <ProxyGroup name="sources">
+    <SourceProxy class="vtkFileSeriesReader"
+                 file_name_method="SetFileName"
+                 label="gmsh Reader"
+                 name="gmshReaderSeriesReader"
+                 si_class="vtkSIMetaReaderProxy">
+      <Documentation long_help="Reads ASCII files stored in gmsh mesh/pos file format."
+                     short_help="Read a dataset in mesh/pos format.">The gmsh
+                     reader reads ASCII files stored in msh/pos format. 
+                     The default file extension is .msh for mesh and .pos for 
+                     output files. The output of this reader is unstructured grid. 
+                     This supports reading a file series.</Documentation>
+      <SubProxy>
+        <Proxy name="Reader"
+               proxygroup="internal_sources"
+               proxyname="gmshReader"></Proxy>
+      </SubProxy>
+      
+      <StringVectorProperty command="GetCurrentFileName"
+                            information_only="1"
+                            name="FileNameInfo">
+        <SimpleStringInformationHelper />
+      </StringVectorProperty>
+      <StringVectorProperty animateable="0"
+                            clean_command="RemoveAllFileNames"
+                            command="AddFileName"
+                            information_property="FileNameInfo"
+                            name="FileNames"
+                            number_of_elements="1"
+                            panel_visibility="never"
+                            repeat_command="1">
+        <FileListDomain name="files" />
+        <Documentation>The list of files to be read by the reader. If more than
+        one file is specified, the reader will switch to file series mode in
+        which it will pretend that it can support time and provide one file per
+        time step.</Documentation>
+      </StringVectorProperty>
+      <DoubleVectorProperty information_only="1"
+                            name="TimestepValues"
+                            repeatable="1">
+        <TimeStepsInformationHelper />
+        <Documentation>Available timestep values.</Documentation>
+      </DoubleVectorProperty>
+      <Hints>
+        <ReaderFactory extensions="msh pos pos.gz mpos"
+                       file_description="Gmsh mesh/pos file" />
+      </Hints>
+      <!-- End of gmshReaderSeriesReader -->
+    </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

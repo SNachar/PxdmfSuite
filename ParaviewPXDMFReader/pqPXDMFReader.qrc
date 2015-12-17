@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/PXDMFReaderPanel" >
+	<file alias="gem.png">Documentation/images/gemlogo.png</file>
+	<file alias="splash.png">Documentation/images/splash.png</file>
+    </qresource>
+    <qresource prefix="/PXDMFIcons" >
+      <file alias="AddZeros.png">AddZeros/AddZeros.png</file>
+      <file alias="AnnotateFieldData.png">AnnotateFieldData/AnnotateFieldData.png</file>
+      <file alias="TransformFilterWithAxis.png">TransformWithAxis/TransformFilterWithAxis.png</file>
+      <file alias="ArrayCalculatorGlobal.png">ArrayCalculatorGlobal/ArrayCalculatorGlobal.png</file>
+      <file alias="GlobalToPoint.png">GlobalToPoint/GlobalToPoint.png</file>
+      <file alias="Reconstruction.png">Reconstruction/Reconstruction.png</file>
+      <file alias="Optimi.png">Optimi/Optimi.png</file>
+    </qresource>
+</RCC>

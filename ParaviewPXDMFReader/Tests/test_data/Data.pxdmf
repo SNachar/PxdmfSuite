@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" []>
+<Xdmf Version="2.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+<Domain Name="Domain_0">
+<Grid Name="PGD1">
+<Information Name="Dims" Value="2" />
+<Information Name="Dim0" Value="X" />
+<Information Name="Dim1" Value="Y" />
+<Geometry GeometryType="XYZ">
+<DataItem NumberType="Float" Precision="8" Dimensions="38854 3" Format="BINARY" Seek="0" >Data.bin</DataItem>
+</Geometry>
+<Topology TopologyType="Mixed" NumberOfElements="75982"  >
+<DataItem NumberType="Int" Dimensions="303928"  Format="BINARY" Seek="932496" >Data.bin</DataItem>
+</Topology>
+<Attribute Name="Kxx2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="2148208" Dimensions="38854" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kyy2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="2459040" Dimensions="38854" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kxy2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="2769872" Dimensions="38854" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kzz2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="3080704" Dimensions="38854" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kxx_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="3391536" Dimensions="75982" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kyy_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="3999392" Dimensions="75982" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kxy_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="4607248" Dimensions="75982" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kzz_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5215104" Dimensions="75982" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+</Grid>
+<Grid Name="PGD2">
+<Information Name="Dims" Value="1" />
+<Information Name="Dim0" Value="Z" />
+<Geometry GeometryType="XYZ">
+<DataItem NumberType="Float" Precision="8" Dimensions="499 3" Format="BINARY" Seek="5822960" >Data.bin</DataItem>
+</Geometry>
+<Topology TopologyType="Polyline" NumberOfElements="498"  NodesPerElement="2"  >
+<DataItem Format="BINARY" DataType="Int" Dimensions="996" Seek="5834936">
+Data.bin
+</DataItem>
+ </Topology>
+<Attribute Name="Kxx2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5838920" Dimensions="499" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kyy2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5842912" Dimensions="499" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kxy2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5846904" Dimensions="499" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kzz2_0" Center="Node" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5850896" Dimensions="499" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kxx_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5854888" Dimensions="498" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kyy_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5858872" Dimensions="498" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kxy_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5862856" Dimensions="498" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+<Attribute Name="Kzz_0" Center="Cell" AttributeType="Scalar" >
+<DataItem  Format="BINARY" NumberType="Float" Seek="5866840" Dimensions="498" Precision="8">Data.bin
+</DataItem>
+</Attribute>
+</Grid>
+</Domain>
+</Xdmf>

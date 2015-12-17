@@ -1,0 +1,6 @@
+<ParaViewFilters> 
+  <Category name="PXDMF" menu_label="&amp;PXDMF" show_in_toolbar="1">
+      <!-- adds a new category and then adds our filter to it -->
+      <Filter name="AnnotateFieldData" icon=":/PXDMFIcons/AnnotateFieldData.png" />
+  </Category>
+</ParaViewFilters>

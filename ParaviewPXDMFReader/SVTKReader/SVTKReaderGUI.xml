@@ -1,0 +1,5 @@
+<ParaViewReaders>
+  <Reader name="SVTKReader" extensions="svtk"
+    file_description="Separated Variables Files">
+  </Reader>
+</ParaViewReaders>

@@ -1,0 +1,5 @@
+<ParaViewWriters>
+  <Writer name="gmshWriter" extensions="msh"
+    file_description="gmsh Files">
+  </Writer>
+</ParaViewWriters>

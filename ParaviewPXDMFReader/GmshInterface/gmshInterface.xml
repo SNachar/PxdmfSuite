@@ -1,0 +1,47 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="sources">
+   <SourceProxy name="gmshInterface"  label="Gmsh Source" 
+   class="vtkgmshInterface"
+   base_proxygroup="sources"
+   >
+     <Documentation 
+        long_help="Gmsh Interface"
+        short_help="Gmsh Interface">
+     </Documentation>
+   
+    <StringVectorProperty command="SetScript"
+                            name="Script"
+                            number_of_elements="1"
+                            panel_visibility="default"
+                          default_values='Include "/Big/fbordeu/todelete/AAAA.geo";'
+                          >
+      
+        <Hints>
+          <Widget type="multi_line" />
+        </Hints>
+        <Documentation>This property contains the text of a gmsh script.</Documentation>
+    </StringVectorProperty>
+
+    <IntVectorProperty command="SetOutputDimension"
+                         default_values="2"
+                         name="OutputDimension"
+                         number_of_elements="1">
+        <EnumerationDomain name="enum">
+          <Entry text="1D mesh"
+                 value="1" />
+          <Entry text="2D mesh"
+                 value="2" />
+          <Entry text="3D mesh"
+                 value="3" />
+        </EnumerationDomain>
+        <Documentation>The value of this property sets the maximum
+        dimensionality of the output tessellation. When the value of this
+        property is 3, 3D cells produce tetrahedra, 2D cells produce triangles,
+        and 1D cells produce line segments. When the value is 2, 3D cells will
+        have their boundaries tessellated with triangles. When the value is 1,
+        all cells except points produce line segments.</Documentation>
+    </IntVectorProperty>
+
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

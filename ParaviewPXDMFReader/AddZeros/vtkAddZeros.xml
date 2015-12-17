@@ -1,0 +1,85 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+    <SourceProxy class="vtkAddZeros"
+                 label="Add Zeros"
+                 name="AddZeros"
+                 icons=":/PXDMFIcons/AddZeros.png" >
+      <Documentation long_help=""
+                     short_help="">
+                     The Add Zeros filter makes a shallow copy of the output
+                     data object from the input data object except for appending
+                     _0 to the names specified to the output from the input.</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkDataObject" />
+        </DataTypeDomain>
+        <InputArrayDomain name="input_array" optional="1"/>
+      </InputProperty>
+
+      <StringVectorProperty information_only="1"
+                            name="CellArrayInfo">
+        <ArraySelectionInformationHelper attribute_name="Cell" />
+      </StringVectorProperty>
+      <StringVectorProperty command="SetCellArrayStatus"
+                            element_types="2 0"
+                            information_property="CellArrayInfo"
+                            label="Cell Arrays"
+                            name="CellArrayStatus"
+                            number_of_elements="0"
+                            number_of_elements_per_command="2"
+                            repeat_command="1">
+        <ArraySelectionDomain name="array_list">
+          <RequiredProperties>
+            <Property function="ArrayList"
+                      name="CellArrayInfo" />
+          </RequiredProperties>
+        </ArraySelectionDomain>
+        <Documentation>This property lists which cell-centered arrays to
+        read.</Documentation>
+      </StringVectorProperty>
+      <StringVectorProperty information_only="1"
+                            name="PointArrayInfo">
+        <ArraySelectionInformationHelper attribute_name="Point" />
+      </StringVectorProperty>
+      <StringVectorProperty command="SetPointArrayStatus"
+                            element_types="2 0"
+                            information_property="PointArrayInfo"
+                            label="Point Arrays"
+                            name="PointArrayStatus"
+                            number_of_elements="0"
+                            number_of_elements_per_command="2"
+                            repeat_command="1">
+        <ArraySelectionDomain name="array_list">
+          <RequiredProperties>
+            <Property function="ArrayList"
+                      name="PointArrayInfo" />
+          </RequiredProperties>
+        </ArraySelectionDomain>
+        <Documentation>This property lists which point-centered arrays to
+        read.</Documentation>
+      </StringVectorProperty>
+      
+
+     <PropertyGroup label="Cell/Point Array Status"
+                         name="CellPointArrayStatus"
+                         panel_visibility="default"
+                         panel_widget="ArrayStatus">
+            <Property name="CellArrayInfo" />
+            <Property name="CellArrayStatus" />
+            <Property name="PointArrayInfo" />
+            <Property name="PointArrayStatus" />
+     </PropertyGroup>
+
+    <Hints>
+      <ShowInMenu category="PXDMF" icon=":/PXDMFIcons/AddZeros.png" />
+    </Hints>
+    
+    </SourceProxy>
+    </ProxyGroup> 
+</ServerManagerConfiguration>
+ 

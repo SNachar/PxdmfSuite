@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" []>
+<Xdmf Version="2.0" xmlns:xi="http://www.w3.org/2001/XInclude" >
+<Domain Name="tests/Ascii.pxdmf">
+<Grid Name="PGD1" >
+<Information Name="Dims" Value="1"  />
+<Information Name="Dim0" Value="X"  />
+<Topology TopologyType="3DCORECTMESH" NumberOfElements="1 1 3" />
+<Geometry GeometryType="ORIGIN_DXDYDZ">
+<DataItem Format="XML" NumberType="Float" Dimensions="3">
+         0.0 0.0 0.0
+</DataItem>
+<DataItem Format="XML"  NumberType="Float" Dimensions="3">
+         1.0 1.0 1.0
+</DataItem>
+</Geometry>
+<Attribute Name="dep_x" Center="Node" AttributeType="Scalar">
+<DataItem Format="XML" NumberType="Float" Dimensions="3 1 1">
+         1
+         3
+         4
+</DataItem>
+</Attribute>
+<Attribute Name="Sig" Center="Cell" AttributeType="Scalar">
+<DataItem Format="XML" NumberType="Float" Dimensions="2 1 1">
+         2
+         1
+</DataItem>
+</Attribute>
+</Grid>
+</Domain>
+</Xdmf>
+

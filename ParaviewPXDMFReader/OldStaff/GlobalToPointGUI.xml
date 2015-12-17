@@ -1,0 +1,5 @@
+<ParaViewFilters> 
+  <Category name="PXDMF" menu_label="&amp;PXDMF" show_in_toolbar="1">
+      <Filter name="GlobalToPoint" icon=":/PXDMFIcons/GlobalToPoint.png" />
+  </Category>
+</ParaViewFilters>

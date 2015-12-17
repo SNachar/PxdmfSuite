@@ -1,0 +1,444 @@
+author: 
+  Felipe Bordeu 
+  felipe.bordeu@ec-nantes.fr
+
+TOC:
+    PREREQUISITES
+    COMPILATION
+    DEBUGGING
+    KNOW BUGS
+    TODO
+    LICENSING AND BINARY DISTRIBUTION
+    VERSIONS LOG
+
+KNOW USERS
+
+PREREQUISITES
+
+ - The plugging requires Paraview version 4.4.0 or higher and a working compiler. 
+ - Blas (for faster reconstruction)
+ - zlib  to read compressed gmsh files
+ - latex for the automatic generation of Documentation
+
+COMPILATION
+
+ For questions about how to build ParaView Please visit www.paraview.org
+  
+ A) To build the plugin along Paraview Super Build
+   
+    - add this line to the CMakeList.txt of the Paraview SuperBuild (around line 280 ) :
+
+include(pxdmfreader)
+
+    - add these lines to the versions.cmake : 
+
+add_customizable_revision(pxdmfreader
+      SVN_REPOSITORY "https://svn.ec-nantes.fr/ecn/PGDEV/trunk/ParaviewPXDMFReader/"
+      SVN_USERNAME  fbordeu
+      SVN_PASSWORD  fivt5JXA
+      SVN_TRUST_CERT 1)
+
+
+    - copy these files 
+       BuildFiles/pxdmfreader.cmake
+       BuildFiles/intall_pxdmfreader.cmake make
+      to the Project directory in the Superbuild sources
+
+    - compile the ParaViewSuperbuild using CMake (you must activate the plugin using the -DENABLE_pxdmfreader=true)
+ 
+
+ B) To build the Paraview PXDMF Reader using a Paraview build directory:
+
+    - first create a build dir
+	mkdir pxdmfReader_build
+
+    - Then configure and compile
+
+	cd pxdmfReader_build	
+	
+	ccmake -D ParaView_DIR=/dir/to/the/paraview/build/dir /dir/to/the/paraviewPXDMFReader/dir 
+	or 
+	cmake -D ParaView_DIR=/dir/to/the/paraview/build/dir /dir/to/the/paraviewPXDMFReader/dir 
+
+	make	
+
+DEBUGGING
+ 
+ A) If plugin loading failed, try setting the PV_PLUGIN_DEBUG (export PV_PLUGIN_DEBUG=1)
+ environment variable for all processes that you were trying to load the plugin on. 
+ ParaView will then try to print verbose information about each step and causes for
+ failure, as show below.
+ 
+ To assist in debugging the creation of widgets on the Properties panel, one can set 
+ the environment variable PV_DEBUG_PANELS. Whenever a new pqProxyWidget is created, it 
+ will print out debugging text on the console as well as the ParaView Output Window. 
+
+ Additionally, to debug the changes to the state of the Apply button, one can set the 
+ environment variable PV_DEBUG_APPLY_BUTTON. 
+
+ Then fill a bug report in http://bug-mptc.ec-nantes.fr/
+
+ B) For verification of the plugin type "make check" to compile and run all the test for 
+ the plugin. 
+
+KNOW BUGS:
+
+- Incompatibility of cell data and 1D CoRectMesh.
+  (To bypass, on must use unstructured 1D mesh.)
+
+- custom axis label not working with paraview 4.4 . Also check the new edit axes grid... functions
+
+
+TODO:
+ 
+  Cleaning and documentation for all the filters
+  Verify memory isn't leaking. Put Setxxx(0) in the destructors.
+  Clean PXDMFWriter sources
+  Clean PXDMFDocumentBaseStructure.cxx source
+
+LICENSING AND BINARY DISTRIBUTION :
+
+Q: About the binary version of the plug-in on the website:
+
+ Hello, 
+
+ I'm an researcher engineer at L'Ecole Centrale Nantes.
+
+ In our laboratory we use Paraview in a daily basis. Paraview use QT with a =
+ LGPL license.
+ To treat the result of our research, we created a plugin for ParaView.
+ The plugin is only a reader. it add a new filetype to ParaView.
+
+ A will like to know if a can put the binary (not the sources) of the plugin=
+  on a web page, so the community (partners Labs...) can benefits of our res=
+ earch. Or we have  to buy a commercial license of QT?
+
+ The binary is compatible with the binary version of Paraview (www.paraview.=
+ org), so no compilation is needed from the end user.
+
+ Thanks you,
+
+ --
+ Felipe Bordeu Weldt
+ Ingenieur de Recherche
+ -------------------------------------
+ Tel. : 33 (0)2 40 37 16 57
+ Fax. : 33 (0)2 40 74 74 06
+ Felipe.Bordeu@ec-nantes.fr
+ Institut GeM - UMR CNRS 6183
+ Ecole Centrale Nantes
+ 1 Rue de La Noe, 44321 Nantes, FRANCE
+ -------------------------------------
+
+A:
+
+ Hello Mr. Bordeu,
+
+ Thank you for your email.
+
+ Regarding your licensing question, I believe you don't need to purchase a c=
+ ommercial license in order to distribute the plugin you created.
+
+
+ -          As a general rule, mixing Qt LGPL with commercial is not permitt=
+ ed, therefore, if you started with the LGPL license it is better to keep th=
+ e same license for the distribution of your solution.
+
+ -          The LGPL license says that you should be able to share the Qt so=
+ urce code with your recipients if they request it. So, as long as you can c=
+ omply with the LGPL license restrictions, you don't need to switch commerci=
+ al.
+
+ Should you need further information, please feel free to contact me.
+
+ Best regards/Bien cordialement,
+
+ Veronica
+
+ Veronica Iosub
+ Sales Account Manager
+ Email: veronica.iosub@digia.com<mailto:veronica.iosub@digia.com>
+ Tel: +47 21 08 04 32
+ Mobile: +47 41 28 85 46
+
+ Digia - Qt Commercial
+ Rosenkrantzgate 18
+ Postboks 2088 Vika
+ 0125 Oslo, Norway
+
+ Website: http://qt.digia.com<http://qt.digia.com/>
+ Blog: http://qt.digia.com/qtcommercialblog
+ Follow us on Twitter: @QtCommercial
+ Facebook: www.facebook.com/qtcommercial<http://www.facebook.com/qtcommercia=
+ l>
+
+ ------------------------------------------------------------------
+ PRIVACY AND CONFIDENTIALITY NOTICE
+ This message and any attachments are intended only for use by the named add=
+ ressee and may contain privileged and/or confidential information. If you a=
+ re not the named addressee you should not disseminate, copy or take any act=
+ ion in reliance on it. If you have received this message in error, please c=
+ ontact the sender immediately and delete the message and any attachments ac=
+ companying it. Digia Plc does not accept liability for any corruption, inte=
+ rception, amendment, tampering or viruses occurring to this message.
+ -----------------------------------------------------------------
+
+
+
+
+VERSIONS LOG:
+
+New in version 2.0 :
+Notes for version 2.0 :  
+  1) New XDMF v3.0  implementation. if an error appears when reading p/xdmf files with the folowing error:
+         " Type not one of accepted values: ...
+     Please use the updatepxdmf script to update your p/xdmf files (MatlabTools/PXDMFReaderAndWriter/Src/updatepxdmf)
+    
+  Features: 
+     New wWriter using the XDMF v3.0, this writer should replace de old one.
+     Now the plugin is dependent on boost.
+
+  Corrections:
+    Clean up for Paraview 4.4.
+    Correction in the /IO/Xdmf3/vtkXdmf3DataSet.cxx to skip vtkStringArray in the writer.
+
+  
+
+New in version 1.9.1
+  
+  Features:
+    Add reconstruction with VTK_BIQUADRATIC_QUAD X VTK_QUADRATIC_EDGE 
+    Add reconstruction with VTK_QUADRATIC_EDGE X VTK_QUADRATIC_EDGE X VTK_QUADRATIC_EDGE
+    Rename the Mapping PostApply filter to "Mapping"
+    Calculator available in the Apply On Blocks Filter
+    Change of the "Post Reconstruction Mode" to three independent options (more clear) in the PXDMF Settings.
+    Now the PXDMF Writer works for edge_3 elements
+    Clean up the PXDMF Writer.
+    Add Parallel Reader for .pos files (using a .mpos file)
+    add gz reader to read .pos.gz files
+
+  Corrections:
+    Correction of a bug in the PostApply filters behaviours (change of iHat to kHat in the formula)
+    Correction of a bug when putting a dimension in time when reading the file for the first time.
+    Correction of a windows crash when using 1D X 1D X 1D Unstructured data.
+    Correction of a bug when using the PXDMFReader in a state file.
+    Now no post reconstruction filters are applied if DoReconstruction is not activated.
+    Add a correct name to the grid when only one grid is exported using the PXDMFWriter.
+    Change othe use of mktemp to mkstemp in the GmshInterface source.
+    
+
+New in version 1.8.1
+
+    Correction of a bug in the gmsh reader for legacy mesh files.
+    No more need of boost in the gmsh pos file reader. 
+    AddZeros filter work with one level CompositeDataSet
+
+New in version 1.8
+
+    New Apply On Blocks Filters filters to apply a selected filter to only selected block of a multiblock dataset
+    New backend xdmf reader. Now we use the xdmf3 library. 
+    Abstraction class (pxdmfreader) for the library reading the xdmf file.
+    New Add Zeros filter to append _0 to the names of the fields
+    New PXDMF Sync toolbar to synchronized several reader at the same time
+    Filename in the title bar of the Detach window of the Fixed Dimensions
+    Correction to make work the ArrayCalculatorGlobal with a Custom filter
+    Correction, the base class for the PXDMFreader and the Reconstruction filter was in the sources menu
+    Add the SetResultNormals and SetResultTCoords to the ArrayCalculatorGlobal Filter
+    Elimination of UPDATE_RESOLUTION in VTK, need to check the optimi filter (TO CHECK)
+    Use of the NewWidget class for the calculator (TCoord and Normals are available)
+    Add reconstruction with VTK_LINE X VTK_VERTEX
+    Add reconstruction VTK_VERTEX X ...
+    New Feature if a function is missing with "Expand function" will use a unitary function instead (reconstruction filter)
+    Now we can use a Structured mesh for time (pxdmfReader)
+    Now the reconstruction of VTK_IMAGE_DATA(VTK_UNIFORM_GRID) X VTK_RECTILINEAR_GRID will generat Rectilinear. (pxdmfReader & reconstruction)
+    New field data to know if the fixed dimension points are found in the meshes (vtkValidPointMask vtkValidCellMask)
+    New Do Reconstruction option to disable the tensor product of the space dims.(pxdmfReader)
+    New Stride option to reconstruct using a stride in each space coordinates (pxdmfReader).
+    Now no obligation to put the names for each coordinate (in the pxdmf), in this case automatically generated names will added.
+    Correction in the range calculation (reconstruction)
+    Correction in the CMakeList.txt (documentation is build only if it change)
+    Xml interface for the DICOM and the AcrLenght filters.
+    No multi-block output is generated if only one space grid is selected and "Do Reconstruction not" selected
+    When multi-block data is generated the names of branches are populated from the file.
+    Improvement in the GUI for the Do Reconstruction option
+    New Reader for pos files of gmsh. Compatible with the File Series.
+
+  
+New in version 1.6.5
+
+    Correction and addition of information when saving documentation
+    Correction of a really annoying bug in the PXDMFReader documentation save screen
+    Reader for CGal mesh (only Points, Triangles and Tetrahedra)
+    Cleaning code
+    
+New in version 1.6.2
+
+    The Refresh Button is working again (need some testing).
+    Experimental gmsh msh file reader
+    ADD reconstruction for VTK_LINE X VTK_TRIANGLE
+    Correction (feature lost, with the new custom panel architecture) the slider are moved to the correct position after Apply().
+    Error message in the case the orthogonal reconstruction using two (or three) elements cant be done.
+    Add reconstruction with  VTK_QUADRATIC_EDGE (2D) x VTK_QUADRATIC_EDGE(1D)
+    Max number of iteration in the optimization filter so we don't have a stack overflow (c++)
+
+New in version 1.6.1
+
+    New About PXDMF Reader (Help Menu) and PXDMF Settings... (Edit Menu) 
+    Documentation (in PDF) can be save form the help menu.
+
+New in version 1.6
+    
+    Version compatible with Paraview 4.0.1
+    Add reconstruction with VTK_POLY_LINE X VTK_QUAD
+    New Setting dialog for the plugin using (Control+P)
+    Maximum number of independent modes in the GUI can be changed in the setting files
+      GUIMaxNbModes=500
+    Refresh Button (experimental)
+    Correction of a ParaView crash when activating a point/cell data after the first apply.
+    Even faster reconstruction of the field in real time.
+    In the Calculator with global data no information about the axis are shown
+    Correction of bug size of vector in python (0000013)
+    Version number in the about the plugin splash screen
+    Source cleaning
+    Correction of a crash when quitting ParaView after a use of DetachWindow
+    Correction AxisTitleForX present in the filter GlobalDataToPoint (0000015)
+    Correction test data (0000010)
+    Default values for the labels are empty in the TransformWithAxis
+    Now the Continuous Update, update all the render views.
+    Work in the Stride for Structured meshes (bug in the xdmf library).
+    Option to compile the plugin without blas (to work on tablets)
+    New structure of the plugin, cleaner, faster.
+    New filter Reconstruction (vtkReconstruction)
+    New filter Optimization (vtkOptimi)
+    The pxdmfReader can handler term names like term_04, only for term number lower than 10
+
+New in version 1.5.1
+
+    Change of fix --> to fixed in all the project
+    New Name for the Detach fix dimension widget
+    New Names Point/Cell Data
+    Now a file .h is distributed with the plugin so external project can be compiled.
+    Cleaning of some functions names from PGD to PXDMF
+    New python class to facilitate the manipulation and synchronization of one or more PXDMFReader
+    Some function for the camera manipulation in ParaView
+    Icons are in png right now
+    Now you can detach the fixed dimension to control the visualization
+    Now the points used for the fixed dimensions are the same as the sliders.
+    A new filter was added, to calculate a new point with the global data.
+    A new filter, a transform that keep the old axis, so the visualization has the correct units.
+    Margin of the widget are zero like all the other widget in ParaView (more space)
+    Now normally the search of a cell may be faster, we use the last cell found to start the search of the new cell.
+      This added a strange bug (more investigation is needed).
+    Some cleaning up
+    Work to make the plugin work in ParaView 3.98 (Paraview 3.14.1 is not compatible anymore)
+    The Temporal Visualization has the correct name 
+    Now the CubeAxes use the correct names and dimensions of the space dimensions
+    Now the "Annotation Global Data" filter is inside this filter, so only one plugin (file) is need.
+    Now ALL the new filters are in a separated menu/tool bar.
+    Now the units are passed inside the fixed dimension so Annotated Global Data can show the information with units.
+    Continuous Update. When a slider is moved the solution is recalculated and up to date automatically.
+    Splash screen closes automatically after 5 seconds.
+    The derivation is done using the parametric coordinates in the cell so a good approximation of the derivation is done.
+
+New in version 1.41.4
+
+    Now the Splash Screen for the Reader is pretty and uses the QSplash of Qt like ParaView
+    Now vtkPoints use double to store the Points (not floats)
+    Now the slicer have a resolution of 1000, and the text label have 12 decimal max 
+
+New in version 1.41.3
+    
+    Help refinement
+    Elimination of PGD in the reader dialog panel (the Reader is PXDMF, not for PGD only)
+
+New in version 1.41.2
+  
+  Add "AboutGEM Dialog" at the loading of the plugin (can be disable adding this lines in the ParaView Settings Files). more info in http://paraview.org/Wiki/ParaView_Settings_Files
+    [PXDMFReader]
+    Show=False
+
+New in version 1.41.1
+  
+  Compatibility with ParaView SuperBuild (Windows, Linux, Mac)
+  Some little corrections 
+  Copyright and better help.
+
+New in version 1.41:
+
+  Cosmetic corrections
+  Add progress bar for reading heavy data
+  Add Documentation
+  Now when compiling the user can pic blas or the cblas interface through the option USE_CBLAS ( normal blas is use by default)
+  The plugin is compatible with the super build of ParaView.
+
+New in version 1.4:
+
+  Compatible version with the PXDMF format 1.4 
+  Units can be read.
+
+New in version 1.24:
+
+  Bug correction for double vectorial fields reconstruction.
+  Parametric coordinates are double field.
+  Change of the way data access in the fields
+  Now the interpolation can be used for the reconstruction of the solution for any point in the parametric space
+
+New in version 1.23:
+
+  Parametric coordinates are inside the generated field.
+  Capacity of reading and reconstruction of vectorial fields of cells. 
+  Capacity of reading and reconstruction of vectorial fields of double precision
+  Cleaner sources
+  No more ouput to the output window
+
+New in version 1.22:
+
+  Work to include stride in rectilinear mesh (in progress).
+  Some cleaning.
+  Bug wrong minimum in not fixed PGD dims slicer Fixed (0000014 old bugtracker) 
+
+New in version 1.21:
+
+  Save/load state work in paraview.
+  Python wrapping.
+
+
+Personal notes:
+
+change of in the mac book pro
+sudo mv /opt/local/bin/texi2html /opt/local/bin/texi2html.old
+
+
+note:
+-linux fedora 64bits
+ERROR: In /builddir/build/BUILD/ParaView-3.14.1-Source/ParaViewCore/ClientServerCore/vtkPVPluginLoader.cxx, line 296
+vtkPVPluginLoader (0x222d6d0): libblas.so: Ne peut ouvrir le fichier d'objet partagÃ©: Aucun fichier ou dossier de ce type
+
+suffit de faire un lien libblas.so qui pointe sur libblas.so.3 dans /usr/lib64 et c'est bon.
+
+TODO in every file :
+
+add licence note 
+/*=========================================================================
+
+  Program:   PXDMFReader Plugin
+  Module:    pqAboutGEM.cxx
+
+  Copyright (c) GeM, Ecole Centrale Nantes.
+  All rights reserved.
+  Copyright: See COPYING file that comes with this distribution
+
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
+// Std Includes 
+// Vtk Includes 
+// ParaView Includes
+// Qt Includes
+// Plugin Includes
+
+
+ this->SetXXX(0);

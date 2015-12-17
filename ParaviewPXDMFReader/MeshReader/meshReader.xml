@@ -1,0 +1,47 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="sources">
+   <!-- ================================================================== -->
+   <SourceProxy name="meshReader"  label="meshReader" 
+   class="vtkmeshReader"
+   base_proxygroup="sources"
+   >
+     <Documentation
+        long_help="Read a mesh mesh file (Cgal)"
+        short_help="Read a mesh mesh file (Cgal)">
+     </Documentation>
+   
+     <StringVectorProperty
+        name="FileName"
+        command="SetFileName"
+        animateable="0"
+        number_of_elements="1"
+        panel_visibility="never">
+        <FileListDomain name="files"/>
+        <Documentation>
+          This property specifies the file name for the mesh reader.
+        </Documentation>
+     </StringVectorProperty>
+    
+     <Property name="Refresh"
+                        command="Modified"
+                        panel_visibility="advanced"
+                        panel_widget="command_button">
+                         >
+        <Documentation>
+          This is button is experimental.
+        </Documentation>
+     </Property>
+
+ ================================================================== 
+
+     <PropertyGroup label="Options">
+            <Property name="Refresh" />
+     </PropertyGroup> 
+   
+      <Hints>
+        <ReaderFactory extensions="mesh"
+                       file_description="Cgal mesh file" />
+     </Hints>
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>

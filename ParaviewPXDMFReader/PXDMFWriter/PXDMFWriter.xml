@@ -1,0 +1,109 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="writers">
+    <!-- ================================================================== -->
+        
+    
+    <WriterProxy   name="PXDMFWriter3" class="vtkPXDMFWriter3" label="PXDMF Writer3" >
+      <Documentation short_help="Write data in Pxdmf files (using Xdmf3).">Writer to write data in *(PXDMF) files.</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+        <DataTypeDomain composite_data_supported="1"
+                        name="input_type">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        <Documentation>The input filter/source whose output dataset is to
+        written to the file.</Documentation>
+      </InputProperty>
+      
+      <StringVectorProperty command="SetFileName"
+                            name="FileName"
+                            number_of_elements="1">
+        <Documentation>The name of the file to be written.</Documentation>
+      </StringVectorProperty>
+      
+      
+      <!--StringVectorProperty command="SetHeavyDataFileName"
+                            name="HeavyDataFileName"
+                            number_of_elements="1">
+        <Documentation>The name of the file to be written.</Documentation>
+      </StringVectorProperty-->
+      
+      <IntVectorProperty command="SetASCII"
+                         default_values="0"
+                         name="UseASCII"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation></Documentation>
+      </IntVectorProperty>
+      
+      
+      <Hints>
+        <Property name="Input"
+                  show="1" />
+        <Property name="FileName"
+                  show="1" />      
+        <Property name="UseASCII"
+                  show="1" />                        
+        <WriterFactory extensions="pxdmf"
+                       file_description="Separated Variables Files (using Xdmf3)" />
+      </Hints>
+      <!-- End of XdmfWriter -->
+    </WriterProxy> 
+
+  <!-- ================================================================== -->
+    <WriterProxy   name="PXDMFWriter" class="vtkPXDMFWriter" label="PXDMF Writer2" >
+      <Documentation short_help="Write data in Pxdmf files (using Xdmf2).">Writer to write data in *(PXDMF) files.</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input">
+        <ProxyGroupDomain name="groups">
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+        <DataTypeDomain composite_data_supported="1"
+                        name="input_type">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+        <Documentation>The input filter/source whose output dataset is to
+        written to the file.</Documentation>
+      </InputProperty>
+      
+      <StringVectorProperty command="SetFileName"
+                            name="FileName"
+                            number_of_elements="1">
+        <Documentation>The name of the file to be written.</Documentation>
+      </StringVectorProperty>
+      
+      
+      <!--StringVectorProperty command="SetHeavyDataFileName"
+                            name="HeavyDataFileName"
+                            number_of_elements="1">
+        <Documentation>The name of the file to be written.</Documentation>
+      </StringVectorProperty-->
+      
+      <IntVectorProperty command="SetASCII"
+                         default_values="1"
+                         name="UseASCII"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation></Documentation>
+      </IntVectorProperty>
+      
+      
+      <Hints>
+        <Property name="Input"
+                  show="1" />
+        <Property name="FileName"
+                  show="1" />      
+        <Property name="UseASCII"
+                  show="1" />                        
+        <WriterFactory extensions="pxdmf"
+                       file_description="Separated Variables Files (using Xdmf2)" />
+      </Hints>
+      <!-- End of XdmfWriter -->
+    </WriterProxy> 
+  </ProxyGroup>
+</ServerManagerConfiguration>

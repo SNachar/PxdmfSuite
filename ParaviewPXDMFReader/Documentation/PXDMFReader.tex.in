@@ -1,0 +1,925 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage{fancyvrb}
+\usepackage{fullpage}
+\usepackage[usenames]{color}  
+\usepackage[pdftex, 
+            pdfauthor = {Felipe{ }Bordeu{ }Weldt},
+            pdftitle = {PXDMF{ }Tools{ }for{ }ParaView{ }@PARAVIEW_VERSION_MAJOR@.@PARAVIEW_VERSION_MINOR@.@PARAVIEW_VERSION_PATCH@{ }Version{ }@PXDMFReader_VERSION_MAJOR@.@PXDMFReader_VERSION_MINOR@.@PXDMFReader_VERSION_PATCH@},
+            pdfkeywords = {{PGD}{,}{Separated{ }Representation} },
+            pdfcreator = {pdflatex}
+            ]{hyperref} 
+\usepackage{graphicx}
+\usepackage[toc,page]{appendix}
+\usepackage[ruled, vlined]{algorithm2e}
+\usepackage[clean,pdf]{svg}
+
+\usepackage{xcolor}
+\usepackage{relsize}
+
+\usepackage{bookmark}
+\usepackage{caption}
+%% to make work svg images in windows
+\usepackage{fixltx2e}
+%%
+
+\captionsetup{justification=centering}
+% to define the deep in the toc
+\setcounter{tocdepth}{2}
+
+
+\newenvironment{itemize*}%
+  {\begin{itemize}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parskip}{0pt}}% 
+  {\end{itemize}}
+ 
+
+\title{PXDMF Tools for ParaView @PARAVIEW_VERSION_MAJOR@.@PARAVIEW_VERSION_MINOR@.@PARAVIEW_VERSION_PATCH@ \\Version  @PXDMFReader_VERSION_MAJOR@.@PXDMFReader_VERSION_MINOR@.@PXDMFReader_VERSION_PATCH@}
+\author{Felipe Bordeu Weldt\\
+\small Materials, Processing and Composites Technology group\\[-0.8ex]
+\small GeM Institute, Ecole Centrale de Nantes\\
+\small \url{rom.ec-nantes.fr} \\ 
+\small \texttt{felipe.bordeu@ec-nantes.fr}\\  
+} 
+
+\date{\today}  
+
+\newcommand{\fuu}{$f_1^1$}
+\newcommand{\fdu}{$f_2^1$}
+\newcommand{\ftu}{$f_3^1$}  
+\newcommand{\fud}{$f_1^2$}
+\newcommand{\fdd}{$f_2^2$}
+\newcommand{\ftd}{$f_3^2$}
+\newcommand{\fut}{$f_1^3$}
+\newcommand{\fdt}{$f_2^3$}
+\newcommand{\ftt}{$f_3^3$}
+
+\newcommand{\svgtext}[1]{#1}
+\newcommand{\svgeq}[1]{$#1$}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Today many solution strategies use internally some separation of variables to represent all the quantities (fields, linear operators\dots).
+This type of representation, in many cases, enables us to reduce dramatically the amount of data to manipulate and store.
+But, the exploration and the post-treatment of this type of solutions is not an easy task.
+Mainly, because all the available software are not capable of taking into account the "separated" structure of the solutions.
+In this paper, we present a series of tools for the efficient storage and post-treatment of solutions in separated representation.
+One application are presented:
+1) the post-treatment of a multidimensional solution of a mechanical problem, and the generation of the Pareto frontier of an associated optimisation problem,
+\end{abstract}
+
+\tableofcontents
+\section{Introduction} 
+
+The PGD (Proper Orthogonal Decomposition) method \cite{PGD} applied to multidimensional problems uses the separation of variable to represent all the quantities of the problem to solve.
+In most cases, the quantities are represented as a finite sum of product of functions.
+For example, one possible separation is :
+
+\begin{equation}
+\label{eq:separation}
+u(\mathbf{x}_1, \cdots ,\mathbf{x}_{dim}) = \sum^{terms}_{m=1} f_1^{m}(\mathbf{x}_1) \times \cdots \times f_{dim}^{m}(\mathbf{x}_{dim})
+\end{equation}
+
+
+This decomposition of the field $u$, called canonical decomposition, in not unique.
+Others decompositions are possibles, like Tucker or H-Tucker \cite{Tucker} can be used.
+In this paper we focus our work on canonical decompositions (equation \ref{eq:separation}).
+
+
+\subsection{Multidimensional problems and PGD}
+
+The PGD method can be seen as a separation of variable strategy for finding a separated representation of an unknown field, knowing only the operator of the differential equation and the right hand side term.
+The solution of a problem using the PGD method is done in two steps.
+First, we decompose all the quantities of the problem in a separated form (similar to equation \ref{eq:separation}).
+Then, the strategy in its simplest form consists in the calculation of one term of the sum (also called "mode") at a time.
+This stage in the strategy is called the enrichment step.
+The calculation of one term is a non linear problem addressed by a classic fixed point algorithm.
+The main advantage of this approach is that inside the fixed point iteration only low dimensionality problem must be solved (dimension of the coordinate space $\mathbf{x}_i$).
+This enables us to solve multidimensional problems at very low cost.
+
+
+The PGD method is capable of solving multidimensional problems in a very efficient way.
+This enables us to consider very challenging simulations. 
+For example including parameters (like material properties, boundary conditions, geometrical parameters) as extra coordinate in the original problem.
+This multidimensional solutions called "Virtual Charts" (e.g. $u(x,y,z,t,p,w)$) can be used to solve associated engineering design problems.
+
+Some examples are:
+\begin{enumerate}
+\item  finding the optimal parameters for a process, 
+\item  identification of material properties,
+\item  real time simulation-based control,
+\item  on-site help in the decision making process using lightweight devices. 
+\end{enumerate}
+
+All these examples can benefit from the previously constructed ``Virtual Charts" in different ways.
+A very important point is that the sensitivity of the solution with respect to a coordinate can be calculated directly by :
+
+\begin{equation}
+\label{eq:derseparation}
+\frac{\partial u(\mathbf{x}_1, \cdots , \mathbf{x}_{dim})}{\partial \mathbf{x}_{dim}} = \sum^{terms}_{m=1} f_1^{m}(\mathbf{x}_1) \times \cdots \times \frac{\partial f_{dim}^{m}(\mathbf{x}_{dim})}{\partial \mathbf{x}_{dim}}
+\end{equation}
+
+\subsection{Exploration of a "Virtual Chart"}
+
+The multidimensional solutions generated by the PGD method are very rich.
+But they must be kept in separated representation if we want to have a minimal memory footprint during exploration, because the reconstruction of the entirely filed is plagued by the curse of dimensionality.
+
+In the aim of storing these solution a new file format, called PXDMF, was developed.
+It is based on the popular XDMF format (eXtensible Data Model and Format) \footnote{www.xdmf.org}, from which it inherits all the advantages like the compressed binary storage.
+
+The 3D visualization of a separated variable solution needs the reconstruction of the multidimensional solution in a smaller dimension space.
+This is done by fixing some dimensions in order to always reconstruct solutions in lower dimension space.
+To make this task easier a plug-in was developed for the open source software ParaView \cite{Paraview}.
+This module is able to reconstruct the solution on the fly, and to calculate automatically the sensitivity of the fields with respect to the fixed coordinates.
+
+\section{The PXDMF File Format }
+
+
+In general, the PGD method makes use of some kind of discretization of the spaces $\mathbf{x}_j$ (finite elements, finite difference\dots).
+So storing a solution in separated representation means that we have to store the spaces discretizations and all the functions $f_j^{m}(\mathbf{x}_j)$.
+This means that we have to store $dim$ space discretizations, and $terms$ fields in each discretized space (meshes and nodal/elementary values, in the case of FEM).
+
+The main idea was to use an already existing format, the requirements were; portability, robustness, and simplicity and of course the ability to store more than one mesh.
+The popular XDMF format (eXtensible Data Model and Format), fulfils all the requirements.
+In addition the XDMF format can handle binary and compressed data.
+
+
+\begin{figure}[!h]
+\centering
+\includesvg[width=8cm]{pxdmf}
+\caption{PXDMF internal Structure}
+\end{figure}
+
+A key advantage is that the files are written using the XML language (Extensible Markup Language) \footnote{\url{http://www.w3.org/TR/REC-xml/}} to describe the data, making it human readable.
+In the case of large data, compressed binary files can be used for a more efficient storage.
+The complete description of the PXDMF file format can be found in our site\footnote{\url{rom.ec-nantes.fr}}.
+
+
+\section{The ParaView PXDMF Tools Plugin}
+
+As said before, the evaluation of the solution at a point needs the evaluation of the functions $f_j^{m}$.
+To facilitate the reconstruction and the exploration, a series of tools were developed.
+This tools are in the form of a plugin for the visualization software ParaView.
+
+The name of the plugin is PXDMFReader and the current version is  @PXDMFReader_VERSION_MAJOR@.@PXDMFReader_VERSION_MINOR@.@PXDMFReader_VERSION_PATCH@.
+The plugin contains a reader, capable of reading PXDMF files and a series of filters, extra readers, and python routines.
+After loading the plugin in ParaView, a new file format is available in the \verb+open+ menu, and a new menu bar is available.
+
+The plug-in (in binary format) is available on the site.
+Videos for the installation and examples are available on the web site.
+
+\subsection{The PXDMF Reader \label{PXDMFReader}}
+      
+The PXDMF Reader adds support to ParaView for reading separated representation data-sets stored in PXDMF file format.
+The PXDMF Reader was developed to reconstruct solutions stored in separated representation in a very user-friendly way.
+Once the solution is reconstructed, the data can be treated with all the techniques available in ParaView. 
+
+
+
+The properties of the reader are (Figure \ref{fig:reader1}):
+    
+\begin{description}
+ \item[Point Data and Cell Data:] The Point (Cell) field to be loaded.
+    If the number  of Point (Cell) data modes are less than a 100, then individual modes can be selected.
+    This value can be change in the Edit $\rightarrow$ Settings menu.
+    This is used mainly for debugging purposes.
+ \item[Visualization Space:] 
+    The user can select the dimension(s) to put in the Visualization Space.
+    Note: the Visualization Space can be different from the physical space of the problem.
+    For example, an arbitrary parametric dimension can be selected and mapped to any dimension of the Visualization Space (Figure \ref{fig:vis}).
+ \item[Visualization Time:] 
+    The user can select a one-dimensional dimension to put in the Visualization Time.
+    Again the Visualization Time can be different from the temporal dimension of the problem.
+    Any unidimensional dimension can be in the Visualization Time (\hbox{Figure \ref{fig:vis}}).
+\begin{figure}[!h]
+\centering
+\includesvg[width=7cm]{visu}
+\caption{Mapping from the problem space to the Visualization Space and Time \label{fig:vis}}
+\end{figure}
+ \item[Use Interpolation:] 
+    This activate the use of the interpolation generated by the mesh.
+    So the field can be computed at any point in the space.
+    For example, between two point in a temporal dimension. 
+    If this check-box is not checked the closest point is used for the reconstruction.
+ \item[Compute Derivatives: ]
+    Compute Derivatives requires "Use Interpolation" to be enabled.
+    When this option is enabled, the sensibility of the Point fields are automatically calculated with respect to the Fixed Dimensions and to the Temporal Dimension.
+ \item[Continuous Update:]
+    This option enables us to bypass the need of clicking on the Apply button every time that we change a Fixed dimension.
+    In this case the solution is updated in real-time (be careful not to use this option with very big data-sets).
+ \item[Do Reconstruction:]
+    This option is enable by default. If unchecked user can visualize the raw data, i.e. the funtions $f_j^{m}(\mathbf{x}_j)$.
+ \item[Expand Fields:]
+   With this option enabled any missing function ($f_j^{m}(\mathbf{x}_j)$) is automatically replace by ones.
+ \item[Fixed Dimensions:]
+    All the dimension that are not in the Visualization Space neither in the Visualization Time.
+    The $\times$ button enables us to detach the Fixed Dimensions sliders so they can be changed easily.
+\end{description} 
+
+\begin{figure}[!h]
+\centering
+
+\includegraphics[width=4.2cm]{reader1.png}
+\caption{Properties Dialog PXDMF Reader Properties Dialog \label{fig:reader1}}
+\end{figure}
+
+Figure \ref{fig:reader3}, shows the same dialog in a "Detached Mode".
+The two mapped spaces are automatically removed from the "Fixed Dimension" dialog.
+
+The information about the names (and the units) of the dimensions used in the Visualization Space are passed to the generated solution, so if the user activates the option "Show cube axes" correct labels are generated.
+Also the names of the axis are updated using the names of the "Visualization Space" dimensions.
+
+\begin{figure}[!h]
+\centering 
+\includegraphics[width=10cm]{reader3.png}
+\caption{Properties Dialog with X,Y,Z in the Visualization Space, in "Detached Mode" \label{fig:reader3}}
+\end{figure}
+
+\subsection{The msh Reader}
+      
+The gmshReader adds support to ParaView for reading gmsh mesh files (*.msh) (in MSH ASCII file format 2.2 and 1.0 version).
+The reader is capable of reading only point and cells, for the moment no fields are readed.
+The reader is very basic and has no parameters.
+
+\subsection{The mesh Reader}
+      
+The meshReader adds support to ParaView for reading cgal mesh files (*.mesh).
+This reader is experimental.
+The reader is very basic and has no parameters.
+
+\subsection{The Python Routines}
+
+ParaView has a python console.
+This console allows the user to control most of the visualization using command lines.
+To make the control of the PXDMF Reader easier, some extra function are present in the plugin.
+
+The class ReaderSync enables the user to synchronize and control several PXDMFReader at the same time.
+
+
+\begin{Verbatim}[frame=single]
+>>> import ReaderSync
+>>> help(ReaderSync)
+Help on package ReaderSync:
+NAME
+    ReaderSync
+
+CLASSES
+    ReaderSync
+    
+    class ReaderSync
+     |  Class to synchronize PXDMF Readers
+     |  from ReaderSync import *
+     |  Pxdmfsync = ReaderSync.ReaderSync()
+     |  Pxdmfsync.SetFixedDimension('Amp', 1.2)
+     |  Pxdmfsync.SetFixedDimensionPer('DX', 0.2)
+     |  
+     |  Methods defined here:
+     |  
+     |  GetState(self)
+     |      To recover the state off all the coordinate in a text form. must 
+     |      set the printstate variable to 1 first 
+     |      >>> Pxdmfsync.printstate = 1
+     |      >>> Pxdmfsync.GetState()
+     |      'STATE;:Y:0.0:1.0:X:0.0:3.0;FIN'
+     |  
+     |  SetFixedDimension(self, name, value)
+     |      Set the value of a fixed coordinate
+     |  
+     |  SetFixedDimensionPer(self, name, value)
+     |      Set the value of a fixed coordinate using percentage. value must be 
+     |      between 0 and 1
+     |  
+     |  UpdatePipeline(self)
+     |      Call UpdatePipeline() on each register PXDMFReader
+     |  
+     |  UpdateSources(self)
+     |      Update the internal list of PXDMF Readers
+     |  
+     |  __init__(self)
+
+\end{Verbatim}
+
+This can be done in the GUI by opening the PXDMF Sync Panel in the View menu (Figure \ref{fig:pxdmfsync}).
+
+\begin{figure}[h]
+     \centering
+      \includegraphics[width=8cm]{PxdmfSync.png}
+     \caption{Pxdmf Syncronization panel \label{fig:pxdmfsync}}
+\end{figure}
+
+This class enable us to control the dimension from the Animation View using the new Python interface :
+
+\begin{Verbatim}[frame=single]
+from ReaderSync import *
+
+def start_cue(self): pass
+
+def tick(self): 
+   Pxdmfsync = ReaderSync()
+   scene = GetAnimationScene()
+   Pxdmfsync.SetFixedDimensionPer('a', scene.TimeKeeper.Time)
+   Pxdmfsync.UpdatePipeline()
+
+def end_cue(self): pass
+\end{Verbatim}
+
+\clearpage 
+\subsection{Gmsh Reader}
+
+The gmsh reader reads ASCII files stored in msh/pos format.
+The default file extension is .msh for mesh and .pos for output files.
+The output of this reader is unstructured grid. 
+This filter supports reading a file series.
+
+\subsection{mesh Reader}
+The Cgal mesh reader read file stored in Cgal mesh format.
+This filter is experimental.
+
+\section{The Filters}
+
+Six filters are available in the plugin. 
+The aim of these filter is to make easier some operations related with the separated representation of the solutions.
+Some of this filters can be used on data not coming form the separated representations.
+
+A new toolbar and a new sub-menu (Figure \ref{fig:menus}) inside the filter menu are available. 
+ 
+\begin{figure}[h]
+     \centering
+      \includegraphics[width=4cm]{menubar1.png}
+     \includegraphics[width=5cm]{menubar2.png}
+     \caption{(Left) The PXDMF toolbar, (Right) The PXDMF menu on the Filter menu of ParaView\label{fig:menus}}
+\end{figure}
+
+\subsection[Add Zeros Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{AddZeros.png}\parbox[c]{.55\textwidth}{Add Zeros Filter} } }
+
+This is a very simple filter to add ``\_0" to the names of each selected field.
+
+\subsection[Annotate Fixed Dimension Data Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{AnnotateFieldData.png}\parbox[c]{.55\textwidth}{Annotate Fixed Dimension Data Filter} } }
+
+
+This filter enable one to annotate all the Fixed Dimension data including the Visualization Time dimension (Figure \ref{fig:example2}). 
+The format of the annotation can be changed in the properties of the filter (Figure \ref{fig:Annotate1}).
+The \verb+%f+ correspond to the format of the value and the \verb+%s+ correspond to the format of the unit (if present).
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{example2.png}
+\caption{Example of Annotate Fixed Dimension Filter\label{fig:example2}}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{Annotate1.png} 
+\caption{Annotate Fixed Dimension Properties Dialog\label{fig:Annotate1}}
+\end{figure}
+
+
+\clearpage 
+\subsection[Calculator With Global Data Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{ArrayCalculatorGlobal.png}\parbox[c]{.55\textwidth}{Calculator With Global Data Filter} } }
+%\subsection{Calculator With Global Data Filter }
+
+The Calculator With Global Data filter computes a new data array or new point coordinates as a function of existing scalar or vector arrays.
+This filter is based on the original Calculator Filter available in ParaView.
+It adds the possibility of using global data (Fixed Dimension and Visualization Time) in the formula (Figure \ref{fig:calculatorglobal1}).
+        
+\begin{figure}[h]
+\centering
+\includegraphics[width=5cm]{calculatorglobal1.png}
+\caption{ Calculator With Global Filter Dialog }
+\label{fig:calculatorglobal1}
+\end{figure}
+
+
+\clearpage 
+\subsection[Global Data To Point Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{GlobalToPoint.png}\parbox[c]{.55\textwidth}{Global Data To Point Filter} } }
+
+The Global Data To Point Filter creates a new point from the Global Data (Fixed Dimensions and Visualization Time).
+This filter is very useful for solution with parametric dimensions based on the physical space (e.g. position of a force, position of a crack).
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{globaldatatopoint1.png}
+\caption{Global Data To Point Properties Dialog}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=8cm]{globaldatatopoint2.png}
+\caption{Example Global Data To Point Filter}
+ \end{figure}
+
+\clearpage 
+\subsection[Optimization Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{Optimi.png}\parbox[c]{.55\textwidth}{Optimization Filter} } }
+
+The optimization filter is used to minimize or maximize a quantity has a function of the fixed dimension.
+One must choose the variable to minimize and the Optimization Space.
+The Restart button is used to restart the optimization if the number of iterations is not enough.
+
+This filter use the vtkAmoebaMinimizer filter internally, for more details about the options please read the vtkAmoebaMinimizer documentation.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=6cm]{optimi1.png}
+\caption{Optimization Properties Dialog}
+ \end{figure}
+
+\clearpage 
+\subsection[Reconstruction Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{Reconstruction.png}\parbox[c]{.55\textwidth}{Reconstruction Filter} } }
+
+The Reconstruction Filter works in the same way a the PXDMF reader but takes datasets already available in ParaView as inputs.
+For more information please read the documentation for the PXDMF Reader (\ref{PXDMFReader}).
+The only difference is that you can use a multi-block dataset as input or you can select multiple datasets (using Ctrl + click) and the apply the Reconstruction Filter.
+
+The transform with axis filter can be used to add the names for each coordinate.
+The calculator filter can be used to generate new terms before reconstruction.
+Every new term must follow this naming convention \emph{Name}\_\emph{ModeNumber} (example "temp\_0").
+Note : the term number start from zero.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{Reconstruction1.png}
+\caption{Example Reconstruction Filter}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=8cm]{Reconstruction2.png}
+\caption{Top) Two independent meshes (left) 2D disk, (right) 1D line \\ Bottom) 3D reconstruction.}
+\end{figure}
+    
+
+
+\clearpage 
+\subsection[Transform With Axis Filter]{\parbox[b]{.4\textwidth}{\includegraphics[width=.8cm]{TransformFilterWithAxis.png}\parbox[c]{.55\textwidth}{Transform With Axis Filter} } }
+
+The Transform With Axis filter allows us to specify the position, size and orientation of a data sets.
+This filter is based on the original Transform Filter available in ParaView.
+Additionally this filter will move/scale/rotate the axis information.
+So when "Show Axis" is enabled the axis are correctly named and correctly moved/scaled/rotated (Figure \ref{fig:transformwithaxis1}).
+
+The "On Axes Also" option apply the transform filter on the axis of the data-set also.
+
+This filter is very useful in the case of data with very different scales.
+For example, in the case of parametric data with very different units (Young modulus in one axis, and Poisson ratio in the other axis).
+The Young modulus normally is in the order of 10 GPa, and the Poisson ration is in the order of 1.
+
+
+          
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=7cm]{transformwithaxis2.png} 
+     \caption{ Transform With Axis Filter  Properties Dialog}
+\end{figure}
+
+\begin{figure}[h]
+   
+      \centering
+      \includegraphics[width=10cm]{transformwithaxis1.png}
+   \caption{  Example Transform With Axis Filter}
+\label{fig:transformwithaxis1}
+\end{figure}
+\clearpage 
+\subsection{ArcLength}
+
+This filter (vtkAppendArcLength) adds a new point-data array named "arc\_length" with the computed arc length for each of the polylines in theinput.
+For all other cell types, the arc length is set to 0.
+
+
+\clearpage 
+\subsection{On Blocks Filters}
+
+The On Blocks Filters menu (in the Filters menu of ParaView), group a series of filters that can be apply to only a selected number of block of a Multi-block Dataset.
+For example when the option "Do Reconstruction" is disable, the user can apply the Clip filter and then apply the Reconstruction filter.
+This is very useful when the reconstructed domain is to big to fit in memory.
+
+The avilable filter are :
+\begin{figure}[h!]
+      \centering
+      \includegraphics[width=10cm]{OnBlocksFilters.png}
+   \caption{On Blocks Filters currently available}
+\label{fig:onblockfilters}
+\end{figure}
+
+To add a new filter to the this list. One need to write a simple xml file with the description and import this file using the plugin manager.
+
+\begin{Verbatim}[frame=single]
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+    <!-- Replace the clip with the name of the filter -->
+    <SourceProxy name="ClipOnBlock" 
+                 label="Clip On Block" 
+                 class="vtkApplyOnBlocksFilter" 
+                 si_class="vtkSIMetaFilterProxy">
+
+      <Documentation
+         short_help="Apply the filter to only a block."
+         long_help="Apply the clip Filter to only a block.">  
+      </Documentation>
+
+      <InputProperty command="SetInputConnection" 
+                     name="Input"  
+                     panel_visibility="default">
+
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type" 
+                        composite_data_supported="1">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+
+        <!-- Replace the clip with the name of the filter -->        
+        <Documentation>
+        This property specifies the input to the ClipOnBlock filter.
+        </Documentation>
+      </InputProperty>
+      
+      <IntVectorProperty clean_command="RemoveAllIndices"
+                         command="AddIndex"
+                         name="BlockIndices"
+                         number_of_elements_per_command="1"
+                         panel_visibility="default"
+                         repeat_command="1">
+                         
+        <CompositeTreeDomain mode="all" name="tree">
+          <RequiredProperties>
+            <Property function="Input" name="Input" />
+          </RequiredProperties>
+        </CompositeTreeDomain >
+        <Hints>
+          <WidgetHeight number_of_rows="20" />
+        </Hints>
+        
+        <Documentation>
+          This property lists the ids of the blocks to 
+          apply the selected filter.
+        </Documentation>
+      </IntVectorProperty>
+        
+      <SubProxy>
+        <!-- Replace the Clip with the name of the filter -->
+        <Proxy name="Filter"
+               proxygroup="filters"
+              proxyname="Clip">
+        </Proxy>
+        <ExposedProperties>
+          <!-- Add the correct Properties to expose -->
+          <Property name="SelectInputScalars" />
+          <Property name="ClipFunction" />
+          <Property name="Value" />
+          <Property name="InsideOut" />
+          <Property name="UseValueAsOffset" />
+          <Property name="PreserveInputCells" />
+        </ExposedProperties>
+      </SubProxy>
+      <Hints>
+        <Visibility replace_input="1" />
+      </Hints>
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>
+\end{Verbatim}
+
+\clearpage 
+
+\section{The Sources}
+
+\subsection{Gmsh Interface}
+
+The Gmsh Interface source can be use to generate a mesh from a gmsh geo script.
+The user must write the script and choose the dimensionality of the output mesh.
+
+\section{The Writers}
+
+\subsection{Gmsh Writer}
+
+This Writer enable the writing data to .msh files. 
+This Writer is experimental.
+
+\subsection{Raw Writer}
+
+This filter is in construction. I will be possible to save data of structured mesh in raw format.
+
+\section{Setting}
+
+The setting panel in Edit $\rightarrow$ Setting enable to control the behavior of the plugin.
+
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=7cm]{Settings1.png} 
+     \caption{Setting of the PxdmfReader Plugin}
+\end{figure}
+
+\subsection{Behaviors}
+When the 'apply mappping' is activated the plugin search for point fields with name of the style 'Mapp\_x', 'Mapping\_T'...
+The field must start with the word 'mapp' (case insensitive) and finish with the name of one of the spaces.
+In the case this coordinate is used in the Visualization Space the mapping is applied immediately.
+
+When the 'Threshold' is activated, the plugin search for a cell field with the name starting with 'indic' (case insensitive)
+And apply a Threshold filter using this field.
+
+
+
+\section{Applications}
+
+\subsection{Post-treatment and Pareto frontier}
+
+A first example is the post-treatment of a multidimensional solution of a mechanical problem, and the generation of the Pareto frontier of an associated optimisation problem.
+We consider a parametric model related to the elasticity problem in which parameters describing the material and the geometry are considered as extra-coordinates.
+A basic simple (but three-dimensional) problem was treated.
+In addition to the three-dimensional physical space, we add three new coordinates, one related to the Young's modulus $E$, one to the Poisson's ratio $\nu$ and one to the geometrical parameter $e$ depicted in Figure \ref{fig:piecebrice}.
+The boundary conditions are the followings: distributed surface force on the light-grey surface (red arrows), and displacement equal to zero on the dark-grey surface (left part of the left hole).
+
+The simulation was done using the PGD method, to obtain a multidimensional solution containing the solution for any combination of material and geometrical parameters.
+More details about the PGD method applied to this example can be found in \cite{PGD2}.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=10cm]{piece_param_1.png}
+   \caption{Physical space parametrized by the parameter $e$ \label{fig:piecebrice}}   
+\end{figure}
+
+This problem was solved for $E \in  [100,250000]$MPa,  $\nu \in [0,0.45]$ and $e \in [1,5]$, using the following decomposition.
+
+\begin{equation}
+\mathbf{u}(x,y,z,E,\nu,e)  = \sum_{i=1}^{25} f^i_{xy}(x,y) \cdot f^i_{z}(z)\cdot f^i_{E}(E)\cdot f^i_{\nu}(\nu)\cdot f^i_{e}(e)
+\end{equation}
+
+The main motivation behind this kind of problem, is to optimize the parameter $e$ as a function of the material properties.
+For example, for a series of given material families (Table \ref{tab:mats})\footnote{Material properties from CES Edupack Software}, we found the optimal thickness of the piece to stay in the elastic domain and the weight for the given thickness.
+In Table \ref{tab:mats} when the value of the optimal thickness is equal to either one of the limits ($1$ or $5$) means that the optimal thickness is outside the interval (e.g. Lead alloys).
+We can also notice, that some material have a bigger value of $e$ but a very low weight (e.g Cast magnesium alloys).
+
+\begin{table}[h]
+\caption{\label{tab:mats} Material properties, optimal thickness and weight}
+\begin{tabular}{p{4cm} rrrrrr} \hline
+Material 							& $E $ 		& $\nu$	& Density & Stress limit $\sigma_y$& $e$& weight\\ \hline
+Non age-hardening wrought Al-alloys &69970	& 0.3394&  2693 & 158.7		& 2.141	& 392.93 \\
+Titanium alloys 					&114900	& 0.3599&  4596 & 1077.0	& 1.000 & 353.90 \\
+Lead alloys 						&14870	& 0.44	&  9867 & 31.08		& 5.000	&3143.76 \\
+Stainless steel 					&199200	& 0.27	&  7846 & 1037.0	& 1.000	& 604.16 \\
+Cast Al-alloys 						&80050	& 0.3394&  2693 & 158.4		& 2.144	& 393.48 \\
+Wrought magnesium alloys 			&44430	& 0.2998&  1710 & 288.5		& 1.514	& 184.74 \\
+High carbon steel 					&207400	& 0.29	&  7850 &  949.7	& 1.000	& 604.47 \\
+Nickel-based superalloys 			&191700	& 0.2907&  8188 & 916.5		& 1.000	& 630.50 \\
+Commercially pure titanium 			&102500	& 0.3599&  4507 & 540.8		& 1.055	& 362.05 \\
+Nickel-chromium alloys 				&209800	& 0.31	&  8399 & 683.7		& 1.000	& 646.75 \\
+Nickel 								&204500	& 0.31	&  8890 & 587.4		& 1.037	& 704.17 \\
+Commercially pure zinc 				&98130	& 0.2872&  7140 & 134.2		& 2.348	&1131.07 \\
+Age-hardening wrought Al-alloys 	&73760	& 0.3394&  2693 & 334.1		& 1.354	& 265.02 \\
+Cast iron gray 						&105100	& 0.2698&  7149 & 250.4		& 1.670	& 839.84 \\
+Brass 								&99500	& 0.345	&  8219 & 412.9		& 1.173	& 718.96 \\
+Bronze 								&85730	& 0.345	&  8746 & 391.5		& 1.217	& 787.96 \\
+Zinc die-casting alloys 			&82460	& 0.2872&  5886 & 262.4		& 1.612	& 670.82 \\
+Cast iron ductile (nodular) 		&172300	& 0.2698&  7149 & 583.4		& 1.041	& 568.08 \\
+Low carbon steel 					&207400	& 0.29	&  7850 & 447.3		& 1.102	& 652.98 \\
+Cast magnesium alloys 				&44430	& 0.2998&  1807 & 183.5		& 1.971	& 245.13 \\
+Low alloy steel 					&210900	& 0.29	&  7850 & 983.9		& 1.000	& 604.47 \\
+Copper 								&128700	& 0.345	&  8935 & 200.0		& 1.870	&1157.60 \\
+Medium carbon steel 				&207800	& 0.29	&  7850 & 701.4		& 1.000 & 604.47 \\
+Tungsten alloys 					&343200	& 0.2798&  18680& 1470.0	& 1.000	&1438.41 \\ \hline
+\end{tabular}
+\end{table}
+
+
+The columns $e$ and weight on the table \ref{tab:mats} were constructed using the algorithm \ref{al:al1}. 
+The algorithm was written in python using the tools presented in the previous section.
+
+
+\begin{algorithm}[h]
+%\dontprintsemicolon 
+%\SetLine 
+ \KwData{Read the PXDMF file from disk}
+ Initialization (set dimension 0 and 1 into the visualization space)\;
+ Clip: to extract the real domain\;
+ Calculator: to recover the real geometry \;
+
+ Compute Derivatives: to calculate the strain \;
+ Calculator: to calculate the Von Mises stress $\sigma_{VM}$ \;
+ \For{each material in the data base}{
+  minimize the function $f(e) = (\sigma_{VM}(e)-\sigma_y)^2$ under the constraint $e \in [1,5]$ \;
+  Integrate Variables: to calculates weight \;
+}
+ \caption{Thickness optimization algorithm\label{al:al1}}
+\end{algorithm}
+
+The content of the python file to optimize the thickness:
+
+\begin{Verbatim}[frame=single]
+#!/usr/bin/python2.7
+
+import os, sys
+
+ParaviewLibDir = '/apps/ParaView-3.98.0-Linux-64bit/lib/paraview-3.98'
+# import paraview 
+sys.path.append(ParaviewLibDir + '/site-packages')
+sys.path.append(ParaviewLibDir)
+from paraview.simple import *
+   
+#Load the PXDMFReader Plugin
+paraview.servermanager.LoadPlugin(ParaviewLibDir + '/libPXDMFReader.so',True)
+
+# for the optimization 
+from scipy import optimize
+
+#import helper classes
+from PGDTools import *
+
+# DB[MATERIAL] = [YOUNG_MODULUS, POISSON_RATIO, SHEAR_MODULUS, 
+#                 MASS_DENSITY ,STRESS_LIMIT_FOR_TENSION ]
+DB = {
+'Age-hardening wrought Al-alloys': [73760, 0.3394, 26460000000,  2693, 334.1],
+'Brass': [99500.0, 0.345, 38340000000.0, 8219.0, 412.9],
+'Bronze': [85730.0, 0.345, 28720000000.0, 8746.0, 391.5],
+'Cast Al-alloys': [80050.0, 0.3394, 29150000000.0, 2693.0, 158.4],
+'Cast iron, ductile (nodular)': [172300, 0.2698, 67410000000, 7149, 583.4],
+'Cast iron, gray': [105100.0, 0.2698, 42040000000.0, 7149.0, 250.4],
+'Cast magnesium alloys': [44430.0, 0.2998, 16430000000.0, 1807.0, 183.5],
+'Commercially pure titanium': [102500.0, 0.3599, 42850000000, 4507.0, 540.8],
+'Commercially pure zinc': [98130.0, 0.2872, 38680000000.0, 7140.0, 134.2],
+'Copper': [128700.0, 0.345, 48370000000.0, 8935.0, 200.0],
+'High carbon steel': [207400.0, 0.29, 80420000000.0, 7850.0, 949.7],
+'Lead alloys': [14870.0, 0.44, 4899000000.0, 9867.0, 31.08],
+'Low alloy steel': [210900.0, 0.29, 80900000000.0, 7850.0, 983.9],
+'Low carbon steel': [207400.0, 0.29, 81460000000.0, 7850.0, 447.3],
+'Medium carbon steel': [207800.0, 0.29, 80900000000.0, 7850.0, 701.4],
+'Nickel': [204500.0, 0.31, 78690000000.0, 8890.0, 587.4],
+'Nickel-based superalloys': [191700.0, 0.2907, 74160000000.0, 8188.0, 916.5],
+'Nickel-chromium alloys': [209800.0, 0.31, 76840000000.0, 8399.0, 683.7],
+'Non age-hardening wrought Al-alloys': [69970, 0.3394, 26.46E9, 2693, 158.7],
+'Stainless steel': [199200.0, 0.27, 78840000000.0, 7846.0, 1037.0],
+'Titanium alloys': [114900.0, 0.3599, 42430000000.0, 4596.0, 1077.0],
+'Tungsten alloys': [343200.0, 0.2798, 133300000000.0, 18680.0, 1470.0],
+'Wrought magnesium alloys': [44430.0, 0.2998, 17440000000.0, 1710.0, 288.5],
+'Zinc die-casting alloys': [82460.0, 0.2872, 31620000000.0, 5886.0, 262.4]}
+
+# Read Solution file
+data =  servermanager.sources.PXDMFReader(FileName='ParametricMaterial.pxdmf')
+
+dims = data.GetProperty('VisualizationSpaceStatus').GetAvailable()
+print dims
+# Physical Space in the visualization Space
+data.GetProperty('VisualizationSpaceStatus').SetData(dims[0:2])
+data.GetProperty('UseInterpolation').SetData(1)
+data.GetProperty('ComputeDerivatives').SetData(0)
+
+#To eliminate the central part
+Clip1 = Clip(data, ClipType="Scalar" )
+Clip1.Scalars = ['CELLS', 'indicatrice']
+Clip1.Value = 0.9
+
+# reconstruction of the domain by the mapping
+Calculator6 = servermanager.filters.CalculatorWithGlobalData(Input=Clip1)
+Calculator6.AttributeMode = 'Point Data'
+Calculator6.Function = ('coords+kHat*(epaisseur-1)*coordsZ*(coordsZ<1)'
+                       '+kHat*(epaisseur-1)*(coordsZ>0.9999)' 
+                       '+kHat*((epaisseur-1)*(coordsZ-2))*(coordsZ>2)\n')
+Calculator6.CoordinateResults = 1
+
+#auxiliar variable rho
+Calculator2 = Calculator(Calculator6)
+Calculator2.AttributeMode = 'Point Data'
+Calculator2.Function = '1'
+Calculator2.ResultArrayName = 'rho'
+
+#volume calculation 
+IntegrateVariables2 = IntegrateVariables(Calculator2)
+
+# displacement in vectorial form
+Calculator10 = Calculator(Calculator6)
+Calculator10.AttributeMode = 'Point Data'
+Calculator10.Function = 'UX*iHat+UY*jHat+UZ*kHat'
+Calculator10.ResultArrayName = 'dep'
+
+# Strain calculation
+Derivatives2 = ComputeDerivatives(Calculator10)
+Derivatives2.Scalars = ['POINTS', 'UZ']
+Derivatives2.Vectors = ['POINTS', 'dep']
+Derivatives2.OutputTensorType = 'Strain'
+Derivatives2.OutputVectorType = 'Nothing'
+
+# Von Mises canculation 
+Calculator3=servermanager.filters.CalculatorWithGlobalData(Input=Derivatives2)
+Calculator3.AttributeMode = 'Cell Data'
+Calculator3.Function = ('(1/(coefficient_poisson^2 + 2*coefficient_poisson + '
+'1))^(1/2)*(Strain_0^2*module_de_young^2 - Strain_0*Strain_1*module_de_young'
+'^2 - Strain_0*Strain_2*module_de_young^2 + Strain_1^2*module_de_young^2 - '
+'Strain_1*Strain_2*module_de_young^2 + Strain_2^2*module_de_young^2 + 3'
+'*Strain_3^2*module_de_young^2 + 3*Strain_4^2*module_de_young^2 + 3*Strain_5'
+'^2*module_de_young^2)^(1/2)')
+Calculator3.ResultArrayName = 'vm'
+
+# Calculation max(Von Mises)
+PythonCalculator2 = PythonCalculator(Calculator3)
+PythonCalculator2.ArrayName = 'maxvm'
+PythonCalculator2.Expression = 'max(vm)'
+PythonCalculator2.CopyArrays = 0
+PythonCalculator2.ArrayAssociation = 'Cell Data'
+
+# Wrapper of the pipeline SeparatedEval(reader, outputfield, fieldtype)
+problem = SeparatedEval(data, PythonCalculator2, Cell=1)
+problem.setActiveField('maxvm')
+
+# Wrapper for the optimization
+class WRAPPER:
+    def __init__(self, data, Poisson,Youngs,Yield):
+        self.data = data
+        self.Poisson = Poisson
+        self.Youngs = Youngs
+        self.Yield = Yield
+    def __call__(self,x):
+        inp = self.getargs(x)
+        c = self.data(inp)
+        # Minimization Function 
+        res = (c-self.Yield)**2+((x>5)*(x-5)**2+(x<1)*(x-1)**2)*100000
+        return res
+    def printt(self,x):
+        print str(self.getargs(x)) + ':::' + str(self(x))
+    def getargs(self,x):
+        return [0, 0, 0, self.Poisson, self.Youngs, float(x) ]
+
+# for each material in the data base we calculate the best thickness
+for mat in DB:
+    print mat + " " +str(DB[mat])
+    myWrapper = WRAPPER(problem,DB[mat][1], DB[mat][0], DB[mat][4])
+
+    p2 = optimize.brute(myWrapper,[[1,5,.1]])
+    p2 = p2[0]
+    
+    myWrapper(p2)
+    
+    print("e optimal :"+ str(p2))
+    #print(p2)
+    Calculator2.Function = str(1)
+    
+    IntegrateVariables2.UpdatePipeline()
+    IntData = servermanager.Fetch(IntegrateVariables2)
+    w = IntData.GetPointData().GetArray(0).GetTuple1(0)/1000*DB[mat][3]
+    print("W : " + str(w) + " Kg")
+\end{Verbatim}
+
+%\subsection{Simulation in ``real time'', and a associated control problem}
+
+%\section{Conclusions}
+
+
+\begin{appendices}
+
+\section{Extra Python Functions}
+
+These functions are also available in the plugin.
+
+
+\begin{Verbatim}[frame=single]
+FUNCTIONS
+    pvdolly(a)
+        Zoom : positive number get closer, negative get further away
+        note: Render() must be called to redraw the scene
+    
+    pvpan(x, y)
+        Pan : xpan, ypan
+        note: Render() must be called to redraw the scene
+    
+    pvroll(x)
+        roll : rotation in degree
+        note: Render() must be called to redraw the scene
+    
+    pvrotate(x, y)
+        Point of view rotation in degree
+        note: Render() must be called to redraw the scene
+    
+    pvzoom(a)
+        Zoom : negative number get closer, positive get further away
+        note: Render() must be called to redraw the scene
+\end{Verbatim}
+
+
+
+\end{appendices}
+
+
+\begin{thebibliography}{3}
+  %\bibitem{POD}POD
+  \bibitem{PGD} A. Ammar, B. Mokdad, F. Chinesta, R. Keunings. \emph{A new family of solvers for some classes of multidimensional partial differential equations encountered in kinetic theory modeling of complex fluids}, Journal of Non-Newtonian Fluid Mechanics, Vol. 139, No. 3 pp. 153-176, 2006. 
+
+
+  \bibitem{Tucker} L. Grasedyck. \emph{Hierarchical Singular Value Decomposition of Tensors}, SIAM. J. Matrix Anal. \& Appl.,Vol. 31, No. 4 pp.2029-2054, 2010. 
+
+  \bibitem{Paraview}  A. Henderson, ParaView Guide, A Parallel Visualization Application. www.paraview.org, Kitware Inc., 2007.
+
+
+  \bibitem{PGD2} F. Chinesta, A. Leygue, F. Bordeu, J.V. Aguado, E. Cueto, D. Gonzales, I. Alfaro, A. Ammar, A. Huerta.
+                \emph{PGD-Based Computational Vademecum for Efficient Design, Optimization and Control}, Archives of Computational Methods in Engineering.  pp. 1-29, 2013.   10.1007/s11831-013-9080-x. 
+
+\end{thebibliography}
+
+\end{document}

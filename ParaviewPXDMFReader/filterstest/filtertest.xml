@@ -1,0 +1,184 @@
+<ServerManagerConfiguration>
+  <ProxyGroup name="filters">
+   <!-- ================================================================== -->
+   <SourceProxy name="filtertest" class="vtkfiltertest" label="Filter Test">
+
+      <Documentation long_help="This filter is the base to create new filters, boa boa boa bla"
+                     short_help="This filter is the base to create new filters" > </Documentation>
+
+      <InputProperty command="SetInputConnection"
+                     name="Input"
+                     panel_visibility="default">
+        <ProxyGroupDomain name="groups"> 
+          <Group name="sources" />
+          <Group name="filters" />
+        </ProxyGroupDomain>
+
+        <DataTypeDomain name="input_type">
+          <DataType value="vtkDataSet" />
+        </DataTypeDomain>
+                <InputArrayDomain name="input_array"
+                          number_of_components="1">
+          <RequiredProperties>
+            <Property function="FieldDataSelection"
+                      name="SelectInputScalars" />
+          </RequiredProperties>
+        </InputArrayDomain>
+
+        <Documentation>This property specifies the input to the testfilter
+        filter.</Documentation>
+      </InputProperty>
+
+
+
+
+      
+      
+
+      <StringVectorProperty command="SetInputArrayToProcess"
+                            element_types="0 0 0 0 2"
+                            label="Scalars"
+                            name="SelectInputScalars"
+                            number_of_elements="5">
+        <ArrayListDomain attribute_type="Scalars"
+                         name="array_list">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <FieldDataDomain name="field_list">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </FieldDataDomain>
+        <Documentation>The value of this property contains the name of the
+        scalar array from which to perform thresholding.</Documentation>
+      </StringVectorProperty>
+      
+      
+      
+     <StringVectorProperty  name="OptimizationSpaceInfo"  information_only="1" >
+        <ArraySelectionInformationHelper attribute_name="OptimizationSpace"/>
+     </StringVectorProperty>
+
+     <StringVectorProperty
+        name="OptimizationSpaceStatus"
+        command="SetOptimizationSpaceStatus"
+        number_of_elements="0" 
+        repeat_command="1"
+        
+        number_of_elements_per_command="2"
+        element_types="2 0"
+        information_property="OptimizationSpaceInfo"
+        animateable="0"
+        label="Optimization Space" 
+        >
+        
+       <ArraySelectionDomain name="array_list" >
+          <RequiredProperties>
+             <Property name="OptimizationSpaceInfo" function="ArrayList"/>
+          </RequiredProperties>
+       </ArraySelectionDomain>
+       <Documentation>
+         This property lists which PXDMF space are used for the Optimization Space.
+       </Documentation>
+     </StringVectorProperty> 
+  
+
+  
+  
+      <IntVectorProperty command="SetMaxNumberOfIterations"
+                         label="Number Of Iterations "
+                         default_values="1000"
+                         name="MaxNumberOfIterations"
+                         number_of_elements="1">
+      </IntVectorProperty>
+  
+  
+      <DoubleVectorProperty command="SetContractionRatio"
+                         label="Contraction Ratio"
+                         default_values="0.5"
+                         name="ContractionRatio"
+                         number_of_elements="1"
+                         panel_visibility="advanced">
+      </DoubleVectorProperty>
+      
+      
+        
+      <DoubleVectorProperty command="SetExpansionRatio"
+                         label="Expansion Ratio"
+                         default_values="2.0"
+                         name="ExpansionRatio"
+                         number_of_elements="1"
+                         panel_visibility="advanced">
+      </DoubleVectorProperty>
+
+      
+            <DoubleVectorProperty command="SetTolerance"
+                         label="Tolerance"
+                         default_values="0.0001"
+                         name="Tolerance"
+                         number_of_elements="1"
+                         panel_visibility="advanced">
+      </DoubleVectorProperty>
+      
+
+      <DoubleVectorProperty command="SetParameterTolerance"
+                         label="Parameter Tolerance"
+                         default_values="0.0001"
+                         name="ParameterTolerance"
+                         number_of_elements="1"
+                         panel_visibility="advanced">
+      </DoubleVectorProperty>
+
+      
+     <IntVectorProperty name="Maximize"
+                        command="SetMaximize"
+                        number_of_elements="1"
+                        default_values="0"
+                        animateable="0"
+                        >
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+       <Documentation>
+         
+       </Documentation>
+     </IntVectorProperty>
+        
+              
+      <IntVectorProperty name="Restart"
+                        command="Restart"
+                        number_of_elements="1"
+                        default_values="0"
+                        animateable="0"
+                        repeat_command="1"
+                        panel_visibility="advanced"
+                        panel_widget="command_button">
+                        >
+        <BooleanDomain name="bool" />
+        <SimpleIntInformationHelper />
+        <Documentation>
+          This is button is experimental.
+        </Documentation>
+     </IntVectorProperty>
+      
+    <PropertyGroup label="Options">
+            <Property name="Restart" />
+            <Property name="Maximize" />
+            <Property name="Tolerance" />
+            <Property name="ParameterTolerance" />
+            <Property name="MaxNumberOfIterations" />
+            <Property name="ExpansionRatio" />
+            <Property name="ContractionRatio" />
+     </PropertyGroup> 
+     <PropertyGroup >
+            <Property name="SelectInputScalars" />
+            <Property name="OptimizationSpaceStatus" />
+     </PropertyGroup>  
+
+     
+   </SourceProxy>
+  </ProxyGroup> 
+</ServerManagerConfiguration>
